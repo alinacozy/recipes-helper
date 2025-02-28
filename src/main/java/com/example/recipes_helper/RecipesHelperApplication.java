@@ -17,7 +17,7 @@ public class RecipesHelperApplication {
 	}
 
 	@GetMapping("/hello")
-	public String getMethodName(@RequestParam(defaultValue = "Alina and Sofia") String name) {
+	public String getHello(@RequestParam(defaultValue = "Alina and Sofia") String name) {
 		return String.format("Hello, %s!", name);
 	}
 
