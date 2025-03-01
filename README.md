@@ -2,7 +2,7 @@
 Проект по технологии сетевого программирования
 
 ## Схема взаимодействия компонентов:
-![Схема взаимодействия компонентов](images/Component_interaction_diagram.png)
+![Схема взаимодействия компонентов](images/Component_interaction_diagram.svg)
 
 ## Логическая схема базы данных:
 ![Схема взаимодействия компонентов](images/Logical_database_diagram.svg)
