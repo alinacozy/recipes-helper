@@ -33,7 +33,7 @@ public class RecipesHelperApplication {
 	  return String.format("Hello, %s!", name);
 	}
 
-	@GetMapping("/recipes")
+	@GetMapping("/recipes_1")
 	public String getRecipes() {
 	
 	  List<Recipe> recipes = (List<Recipe>) repository.findAll();
@@ -44,16 +44,21 @@ public class RecipesHelperApplication {
 	  return result;
 	}
 
-	// @GetMapping("/recipes")
-	// public String getRecipes(@RequestParam(defaultValue = "") String recipeCategory, @RequestParam(defaultValue = "") String productCategory) {
-	
-	//   List<Recipe> recipes = (List<Recipe>) repository.findAll();
-	//   String result="";
-	//   for (Recipe r : recipes){
-	// 	result=result.concat(String.format("Название: %s. Категория: %s. Описание: %s.\n", r.getRecipeName(), r.getRecipeCategory(), r.getDescription()));
-	//   }
-	//   return result;
-	// }
+	@GetMapping("/recipes")
+	public String getRecipes(@RequestParam(required = false) RecipeCategory recipeCategory) {
+		List<Recipe> recipes;
+		if (recipeCategory!=null){ //если значение параметра пришло (не null)
+			recipes = (List<Recipe>) repository.findByRecipeCategory(recipeCategory);
+		}
+		else{ //если параметр не пришел
+			recipes = (List<Recipe>) repository.findAll();
+		}
+		String result="";
+		for (Recipe r : recipes){
+			result=result.concat(String.format("Название: %s. Категория: %s. Описание: %s.\n", r.getRecipeName(), r.getRecipeCategory(), r.getDescription()));
+	  	}
+		return result;
+	}
 
 	@GetMapping("/recipes/{idRecipe}")
 	public String getRecipe(@PathVariable(name = "idRecipe") Long idRecipe) {
