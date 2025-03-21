@@ -24,7 +24,7 @@ public class Product {
     private String productName;
 
     @Column
-    private Integer unit;
+    private String unit;
 
     @Column(name="product_category")
     private ProductCategory productCategory;
@@ -37,7 +37,7 @@ public class Product {
 
     protected Product() {}
 
-    public Product(Long productId, String productName, Integer unit, ProductCategory productCategory) {
+    public Product(Long productId, String productName, String unit, ProductCategory productCategory) {
         this.productId = productId;
         this.productName = productName;
         this.unit = unit;
@@ -52,7 +52,7 @@ public class Product {
         return this.productName;
     }
 
-    public Integer getUnit() {
+    public String getUnit() {
         return this.unit;
     }
 

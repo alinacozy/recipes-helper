@@ -26,11 +26,11 @@ public class ListProduct {
     private Integer count;
 
     @ManyToOne
-    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     protected ListProduct() {}

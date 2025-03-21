@@ -2,6 +2,8 @@ package com.example.recipes_helper.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,17 +25,19 @@ public class UserHistory {
     private Long recipeId;
 
     @Column(columnDefinition = "DATE")
+    @UpdateTimestamp
+    // дата обновится, если пользователь повторит рецепт 
     private Date date;
 
     @Column
     private Rating rate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
     protected UserHistory() {}
