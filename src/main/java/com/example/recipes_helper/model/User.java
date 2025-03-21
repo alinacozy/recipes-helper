@@ -11,13 +11,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table (name = "users", schema = "recipes-helper-db")
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(name="pk_sequence",sequenceName="user_id_seq", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Column(name="user_id")
     private Long userId;
 

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,7 +17,8 @@ import jakarta.persistence.Table;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(name="pk_sequence",sequenceName="recipe_id_seq", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Column(name="recipe_id")
     private Long recipeId;
 
