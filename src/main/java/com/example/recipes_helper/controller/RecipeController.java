@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recipes_helper.model.Recipe;
 import com.example.recipes_helper.model.RecipeCategory;
-import com.example.recipes_helper.repository.RecipeRepository;
 import com.example.recipes_helper.services.RecipeService;
 
 @RestController
