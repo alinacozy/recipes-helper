@@ -12,7 +12,9 @@ public class UpdateTables {
         String dbUrl = "jdbc:postgresql://localhost:5432/mydatabase";
         String username = "myuser";
         String password = "mypassword";
-        String sqlFilePath = "recipes-helper\\src\\main\\resources\\data.sql";
+        //String sqlFilePath = "recipes-helper\\src\\main\\resources\\data.sql";
+        String sqlFilePath = "recipes-helper/src/main/resources/data.sql";
+        // мой убунту требует здесь обычных слешей таких / вместо \\
 
         try (Connection conn = DriverManager.getConnection(dbUrl, username, password);
              Statement stmt = conn.createStatement();
