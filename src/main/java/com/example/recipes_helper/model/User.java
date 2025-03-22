@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -20,7 +21,7 @@ public class User {
     @Id
     @SequenceGenerator(name="pk_sequence",sequenceName="user_id_seq", allocationSize=1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Column(name="user_id")
+    @Column(name="user_id", columnDefinition = "serial")
     private Long userId;
 
     @Column(name="user_name")
@@ -37,10 +38,17 @@ public class User {
 
     protected User() {}
 
+    @PrePersist
+    public void hashPassword() {
+        if (this.password!= null) {
+            this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
+        }
+    }
+
     public User(Long userId, String userName, String password) {
         this.userId = userId;
         this.userName = userName;
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = password;
     }
 
     public Long getUserId(){
@@ -51,8 +59,8 @@ public class User {
         return this.userName;
     }
 
-    public Boolean checkPassword(String hashPassword, String password){
-        return BCrypt.checkpw(password, hashPassword);
+    public Boolean checkPassword(String password){
+        return BCrypt.checkpw(password, this.password);
     }
 
 }

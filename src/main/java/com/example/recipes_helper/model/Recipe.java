@@ -19,7 +19,7 @@ public class Recipe {
     @Id
     @SequenceGenerator(name="pk_sequence",sequenceName="recipe_id_seq", allocationSize=1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Column(name="recipe_id")
+    @Column(name="recipe_id", columnDefinition = "serial")
     private Long recipeId;
 
     @Column(name="recipe_name")

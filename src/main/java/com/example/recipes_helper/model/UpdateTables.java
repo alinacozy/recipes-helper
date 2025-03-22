@@ -13,7 +13,7 @@ public class UpdateTables {
         String username = "myuser";
         String password = "mypassword";
         //String sqlFilePath = "recipes-helper\\src\\main\\resources\\data.sql";
-        String sqlFilePath = "src/main/resources/data.sql";
+        String sqlFilePath = "recipes-helper/src/main/resources/data.sql";
         // мой убунту требует здесь обычных слешей таких / вместо \\
 
         try (Connection conn = DriverManager.getConnection(dbUrl, username, password);
