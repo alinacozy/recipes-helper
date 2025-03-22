@@ -32,10 +32,10 @@ public class Product {
     private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ListProduct> ListProducts;
+    private List<ListProduct> listProducts;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserProduct> UserProducts;
+    private List<UserProduct> userProducts;
 
     protected Product() {}
 
