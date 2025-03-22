@@ -16,11 +16,11 @@ public class ListProduct {
     // составной ключ
     @Id
     @Column(name="recipe_id")
-    private Integer recipeId;
+    private Long recipeId;
 
     @Id
     @Column(name="product_id")
-    private Integer productId;
+    private Long productId;
 
     @Column
     private Integer count;
@@ -35,17 +35,17 @@ public class ListProduct {
 
     protected ListProduct() {}
 
-    public ListProduct(Integer recipeId, Integer productId,  Integer count) {
+    public ListProduct(Long recipeId, Long productId,  Integer count) {
         this.recipeId = recipeId;
         this.productId = productId;
         this.count = count;
     }
 
-    public Integer getRecipeId(){
+    public Long getRecipeId(){
         return this.recipeId;
     }
 
-    public Integer getProductId(){
+    public Long getProductId(){
         return this.productId;
     }
 
