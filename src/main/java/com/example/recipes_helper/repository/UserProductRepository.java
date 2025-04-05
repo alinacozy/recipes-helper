@@ -16,4 +16,7 @@ public interface UserProductRepository extends CrudRepository<UserProduct, IdUse
             "inner join \"recipes-helper-db\".users u using(user_id)\n" + //
             "where u.user_id = :userId and up.count>0", nativeQuery = true)
   List <UserProduct> findByUser(@Param("userId") Long userId);
+
+  @Query("SELECT up FROM UserProduct up WHERE up.user.id = :userId AND up.product.id = :productId")
+  UserProduct findByUserAndProduct(@Param("userId") Long userId, @Param("productId") Long productId);
 } 
