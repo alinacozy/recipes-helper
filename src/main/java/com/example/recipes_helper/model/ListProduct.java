@@ -7,8 +7,10 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 
+@Data
 @Entity
 @Table(name = "listProduct", schema = "recipes-helper-db")
 @IdClass(IdRecipeProduct.class)
@@ -34,23 +36,5 @@ public class ListProduct {
     private Product product;
 
     protected ListProduct() {}
-
-    public ListProduct(Long recipeId, Long productId,  Integer count) {
-        this.recipeId = recipeId;
-        this.productId = productId;
-        this.count = count;
-    }
-
-    public Long getRecipeId(){
-        return this.recipeId;
-    }
-
-    public Long getProductId(){
-        return this.productId;
-    }
-
-    public Integer getCount(){
-        return this.count;
-    }
 
 }

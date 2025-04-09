@@ -2,6 +2,8 @@ package com.example.recipes_helper.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
@@ -11,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+@Data
 @Entity
 @Table(name = "userHistory", schema = "recipes-helper-db")
 @IdClass(IdUserRecipe.class)
@@ -33,36 +35,14 @@ public class UserHistory {
     private Rating rate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
-
     protected UserHistory() {}
-
-    public UserHistory(Long userId, Long recipeId, Date date, Rating rate) {
-        this.userId = userId;
-        this.recipeId = recipeId;
-        this.date = date;
-        this.rate = rate;
-    }
-
-    public Long getUserId(){
-        return this.userId;
-    }
-
-    public Long getRecipeId(){
-        return this.recipeId;
-    }
-
-    public Date getDate(){
-        return this.date;
-    }
-
-    public Rating getRating(){
-        return this.rate;
-    }
 
 }

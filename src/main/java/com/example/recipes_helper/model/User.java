@@ -2,8 +2,9 @@ package com.example.recipes_helper.model;
 
 import java.util.List;
 
+import lombok.Builder;
 import org.mindrot.jbcrypt.BCrypt;
-
+import lombok.Data;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-
+@Data
 @Entity
 @Table (name = "users", schema = "recipes-helper-db")
 public class User {
@@ -37,30 +38,4 @@ public class User {
     private List<UserProduct> userProducts;
 
     protected User() {}
-
-    @PrePersist
-    public void hashPassword() {
-        if (this.password!= null) {
-            this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
-        }
-    }
-
-    public User(Long userId, String userName, String password) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public Long getUserId(){
-        return this.userId;
-    }
-
-    public String getUserName(){
-        return this.userName;
-    }
-
-    public Boolean checkPassword(String password){
-        return BCrypt.checkpw(password, this.password);
-    }
-
 }

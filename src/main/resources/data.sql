@@ -9,9 +9,9 @@ INSERT INTO "recipes-helper-db".user_product (user_id, product_id, count)  VALUE
 INSERT INTO "recipes-helper-db".user_product (user_id, product_id, count)  VALUES (1, 2, 5);
 INSERT INTO "recipes-helper-db".user_product (user_id, product_id, count)  VALUES (1, 3, 500);
 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 1, 200); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 2, 3); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 3, 400); 
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 1, 200);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 2, 3);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (1, 3, 400);
 INSERT INTO "recipes-helper-db".user_history (user_id, recipe_id, date, rate) VALUES (1, 1, '2025-03-19', 5);
 
 INSERT INTO "recipes-helper-db".recipe (recipe_name, description, recipe_category) VALUES ('Картофель по-деревенски', 'Простое, сытное и вкусное блюдо из картофеля, великолепный гарнир ко многим продуктам.', 2);
@@ -31,12 +31,12 @@ INSERT INTO "recipes-helper-db".products (product_name, unit, product_category) 
 INSERT INTO "recipes-helper-db".products (product_name, unit, product_category) VALUES ( 'Перец молотый', 'грамм', 1);
 INSERT INTO "recipes-helper-db".products (product_name, unit, product_category) VALUES ( 'Масло растительное', 'мл', 1);
 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 5, 8); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 17, 60); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 13, 10); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 15, 5); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 16, 5); 
-INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 14, 1); 
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 5, 8);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 17, 60);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 13, 10);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 15, 5);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 16, 5);
+INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (2, 14, 1);
 
 INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (3, 4, 500);
 INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (3, 5, 3);
@@ -47,4 +47,3 @@ INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALU
 INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (3, 13, 5);
 INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (3, 17, 40);
 INSERT INTO "recipes-helper-db".list_product (recipe_id, product_id, count) VALUES (3, 11, 2000);
-

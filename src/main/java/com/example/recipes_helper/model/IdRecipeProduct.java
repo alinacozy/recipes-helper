@@ -6,7 +6,9 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.Data;
 
+@Data
 public class IdRecipeProduct implements Serializable {
 
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -18,32 +20,4 @@ public class IdRecipeProduct implements Serializable {
     protected Long productId;
 
     public IdRecipeProduct() {}
-
-    public IdRecipeProduct(Long recipeId, Long productId) {
-        this.recipeId = recipeId;
-        this.productId = productId;
-    }
-
-    public Long getRecipeId(){
-        return this.recipeId;
-    }
-
-    public Long getProductId(){
-        return this.productId;
-    }
-
-    @Override
-    public boolean equals(Object otherOb) {
-        if (this == otherOb) {return true;}
-        if (!(otherOb instanceof IdRecipeProduct)) {return false;}
-        IdRecipeProduct other = (IdRecipeProduct) otherOb;
-        return ((recipeId==null ? other.recipeId==null :
-            recipeId.equals(other.recipeId)) && (productId.equals(other.productId)));
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(recipeId, productId);
-    }
-
 }

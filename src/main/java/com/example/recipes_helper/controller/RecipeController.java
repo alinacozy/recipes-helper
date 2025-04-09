@@ -44,64 +44,49 @@ public class RecipeController {
 	  return String.format("Hello, %s!", name);
 	}
 
-	@GetMapping("/recipes") // все рецепты, здесь в параметрах передаются фильтры 
-	@ResponseBody
+	@GetMapping("/recipes") // все рецепты, здесь в параметрах передаются фильтры
 	public List<Recipe> getRecipes(@RequestParam(required = false) RecipeCategory recipeCategory) {
 		return recipeService.getRecipesByCategory(recipeCategory);
 	}
+//
+//	@GetMapping("/recipes/{idRecipe}") // конкретный рецепт
+//	public Recipe getRecipe(@PathVariable(name = "idRecipe") Long idRecipe) {
+//		Recipe recipe = recipeService.getRecipeById(idRecipe);
+//		if (recipe == null) {
+//			// обработка ситуации, когда рецепт не найден
+//			return null;
+//		}
+//
+//		List<ListProduct> listProducts = listProductRepository.findByRecipe(idRecipe);
+//		List<Product> products = new ArrayList<>();
+//		for (ListProduct lp : listProducts) {
+//			Product product = productRepository.findByProductId(lp.getProductId());
+//			products.add(product);
+//		}
+//		return recipe;
+//	}
+//
+//	@GetMapping("/user_recipes/{idUser}")
+//	public List<Recipe> getRecipesForUser(@PathVariable(name = "idUser") Long idUser) {
+//		List<Recipe> availableRecipes = new ArrayList<>();
+//		Iterable<Recipe> allRecipes = recipeRepository.findAll();
+//		for (Recipe recipe : allRecipes) {
+//			List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
+//			boolean canPrepare = true;
+//			for (ListProduct lp : listProducts) {
+//				UserProduct userProduct = userProductRepository.findByUserAndProduct(idUser, lp.getProductId());
+//				if (userProduct == null || userProduct.getCount() < lp.getCount()) {
+//					canPrepare = false;
+//					break;
+//				}
+//			}
+//			if (canPrepare) {
+//				availableRecipes.add(recipe);
+//			}
+//		}
+//		return availableRecipes;
+//	}
 
-	@GetMapping("/recipes/{idRecipe}") // конкретный рецепт
-	@ResponseBody
-	public Recipe getRecipe(@PathVariable(name = "idRecipe") Long idRecipe) {
-		Recipe recipe = recipeService.getRecipeById(idRecipe);
-		if (recipe == null) {
-			// обработка ситуации, когда рецепт не найден
-			return null;
-		}
-
-		List<ListProduct> listProducts = listProductRepository.findByRecipe(idRecipe);
-		List<Product> products = new ArrayList<>();
-		for (ListProduct lp : listProducts) {
-			Product product = productRepository.findByProductId(lp.getProductId());
-			products.add(product);
-		}
-		return recipe;
-	}
-
-	@GetMapping("/products/{idUser}") //продукты в наличии у конкретного пользователя
-	@ResponseBody
-	public List<Product> getProductsForUser(@PathVariable(name = "idUser") Long idUser) {
-		List<UserProduct> userProducts = userProductRepository.findByUser(idUser);
-		List<Product> products = new ArrayList<>();
-
-		for (UserProduct up : userProducts) {
-			Product product = productRepository.findByProductId(up.getProductId());
-			products.add(product);
-		}
-
-		return products;
-	}
-
-	@GetMapping("/user_recipes/{idUser}")
-	@ResponseBody
-	public List<Recipe> getRecipesForUser(@PathVariable(name = "idUser") Long idUser) {
-		List<Recipe> availableRecipes = new ArrayList<>();
-		Iterable<Recipe> allRecipes = recipeRepository.findAll();
-		for (Recipe recipe : allRecipes) {
-			List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
-			boolean canPrepare = true;
-			for (ListProduct lp : listProducts) {
-				UserProduct userProduct = userProductRepository.findByUserAndProduct(idUser, lp.getProductId());
-				if (userProduct == null || userProduct.getCount() < lp.getCount()) {
-					canPrepare = false;
-					break;
-				}
-			}
-			if (canPrepare) {
-				availableRecipes.add(recipe);
-			}
-		}
-		return availableRecipes;
-	}
-
+	// @PostMapping("/recipes/{id_recipe}")
+	
 }

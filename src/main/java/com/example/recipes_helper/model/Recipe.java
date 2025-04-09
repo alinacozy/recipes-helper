@@ -2,6 +2,7 @@ package com.example.recipes_helper.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "recipe", schema = "recipes-helper-db")
 public class Recipe {
@@ -32,35 +35,12 @@ public class Recipe {
     private RecipeCategory recipeCategory;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<UserHistory> userRecipes;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ListProduct> listProducts;
 
-    
-
-    protected Recipe() {}
-
-    public Recipe(String recipeName, String description, RecipeCategory recipeCategory) {
-        this.recipeName = recipeName;
-        this.description = description;
-        this.recipeCategory = recipeCategory;
-    }
-
-    public Long getRecipeId(){
-        return this.recipeId;
-    }
-
-    public String getRecipeName(){
-        return this.recipeName;
-    }
-
-    public String getDescription(){
-        return this.description;
-    }
-
-    public RecipeCategory getRecipeCategory(){
-        return this.recipeCategory;
-    }
-
+    protected Recipe() {};
 }
