@@ -16,7 +16,7 @@ public class UserProduct {
     private Long userId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="product_id")
     @JsonProperty("product_id")
     private Long productId;
@@ -26,14 +26,15 @@ public class UserProduct {
 
     @ManyToOne
     @JsonIgnore
-    @MapsId("productId")
+    //@MapsId("productId")
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
 
     @ManyToOne
     @JsonIgnore
-    @MapsId("userId")
+    //@MapsId("userId")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
+
     public UserProduct() {}
 }

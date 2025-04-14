@@ -11,11 +11,11 @@ import lombok.Data;
 @Data
 public class IdUserProduct implements Serializable {
     
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="user_id")
     protected Long userId;
 
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="product_id")
     protected Long productId;
 
