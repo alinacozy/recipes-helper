@@ -1,47 +1,74 @@
-//package com.example.recipes_helper.services;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.example.recipes_helper.model.Recipe;
-//import com.example.recipes_helper.model.RecipeCategory;
-//import com.example.recipes_helper.repository.RecipeRepository;
-//
-//@Service
-//public interface RecipeService {
-//    Recipe getRecipeById(Long idRecipe);
-//    List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory);
-//
-//
-//}
 package com.example.recipes_helper.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.recipes_helper.model.ListProduct;
+import com.example.recipes_helper.model.Product;
 import com.example.recipes_helper.model.Recipe;
 import com.example.recipes_helper.model.RecipeCategory;
+import com.example.recipes_helper.model.UserProduct;
+import com.example.recipes_helper.repository.ListProductRepository;
+import com.example.recipes_helper.repository.ProductRepository;
 import com.example.recipes_helper.repository.RecipeRepository;
+import com.example.recipes_helper.repository.UserProductRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class RecipeService {
 
     @Autowired
-    private RecipeRepository repository;
+	private RecipeRepository recipeRepository;
+
+    @Autowired
+	private ProductRepository productRepository;
+
+    @Autowired
+	private ListProductRepository listProductRepository;
+
+    @Autowired
+	private UserProductRepository userProductRepository;
 
     public Recipe getRecipeById(Long idRecipe){
-        return repository.findByRecipeId(idRecipe);
+        return recipeRepository.findByRecipeId(idRecipe);
+    }
+
+    public List<Product> getProductsByRecipeId(Long idRecipe){
+        List<ListProduct> listProducts=listProductRepository.findByRecipe(idRecipe);
+        List<Product> products = new ArrayList<Product>();
+	  	for (ListProduct lp : listProducts){
+			products.add(productRepository.findByProductId(lp.getProductId()));
+		}
+        return products;
     }
 
     public List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory){
-        if (recipeCategory!=null){ //если значение параметра пришло (не null)
-            return (List<Recipe>) repository.findByRecipeCategory(recipeCategory);
-        }
-        //если параметр не пришел:
-        return (List<Recipe>) repository.findAll();
+		if (recipeCategory!=null){ //если значение параметра пришло (не null)
+			return (List<Recipe>) recipeRepository.findByRecipeCategory(recipeCategory);
+		}
+		//если параметр не пришел:
+		return (List<Recipe>) recipeRepository.findAll();
     }
+
+    @Transactional
+    public void decreaseProducts(Long idRecipe, Long idUser){
+        List<ListProduct> recipeProducts=listProductRepository.findByRecipe(idRecipe);
+        for (ListProduct recipeProduct : recipeProducts){
+            Optional<UserProduct> userProductOptional=userProductRepository.findByUserIdAndProductId(idUser, recipeProduct.getProductId());
+            if (!userProductOptional.isPresent()){ // если у пользователя нет этого продукта
+                throw new EntityNotFoundException("This user doesn't have this product: ");
+            }
+            UserProduct userProduct=userProductOptional.get();
+            // количество данного продукта уменьшается настолько, насколько необходимо для рецепта
+            userProduct.setCount(userProduct.getCount() - recipeProduct.getCount()); 
+            userProductRepository.save(userProduct);
+        }
+    }
+
 }

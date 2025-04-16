@@ -13,6 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 @Data
 @Entity
 @Table(name = "userHistory", schema = "recipes-helper-db")
@@ -36,13 +37,14 @@ public class UserHistory {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
     private Recipe recipe;
-    protected UserHistory() {}
+
+    public UserHistory() {}
 
 }

@@ -1,16 +1,15 @@
 package com.example.recipes_helper.services.Impl;
 
 import com.example.recipes_helper.model.Product;
-import com.example.recipes_helper.model.User;
 import com.example.recipes_helper.model.UserProduct;
 import com.example.recipes_helper.repository.ProductRepository;
 import com.example.recipes_helper.repository.UserProductRepository;
 import com.example.recipes_helper.services.ProductService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +18,19 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
+    @Autowired
     private final UserProductRepository userProductRepository;
+    @Autowired
     private final ProductRepository productRepository;
 
     @Override
     public List<UserProduct> findAllProductsByUser(Long userId) {
         return userProductRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public List<Product> findAllProducts() {
+        return (List<Product>) productRepository.findAll();
     }
 
 
