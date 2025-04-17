@@ -18,7 +18,6 @@ public class ProductContoller {
     @Autowired
     private final ProductService service;
 
-
     @GetMapping("")
     public List<Product> findAllProducts (){
         return service.findAllProducts();

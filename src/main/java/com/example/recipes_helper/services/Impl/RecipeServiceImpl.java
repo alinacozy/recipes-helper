@@ -64,6 +64,27 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    public List<Recipe> getRecipesForUser(Long idUser){
+        List<Recipe> availableRecipes = new ArrayList<>();
+		Iterable<Recipe> allRecipes = recipeRepository.findAll();
+		for (Recipe recipe : allRecipes) {
+			List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
+			boolean canPrepare = true;
+			for (ListProduct lp : listProducts) {
+				Optional<UserProduct> userProduct = userProductRepository.findByUserIdAndProductId(idUser, lp.getProductId());
+				if (!userProduct.isPresent() || userProduct.get().getCount() < lp.getCount()) {
+					canPrepare = false;
+					break;
+				}
+			}
+			if (canPrepare) {
+				availableRecipes.add(recipe);
+			}
+		}
+        return availableRecipes;
+    }
+
+    @Override
     @Transactional // при начале выполнения метода начинается транзакция, а в конце заканчивается. если выбрасываем исключение, транзакция отменяется (rollback)
     public void decreaseProducts(Long idRecipe, Long idUser){
         List<ListProduct> recipeProducts=listProductRepository.findByRecipe(idRecipe);

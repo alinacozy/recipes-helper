@@ -11,5 +11,6 @@ public interface RecipeService {
     Recipe getRecipeById(Long idRecipe);
     List<Product> getProductsByRecipeId(Long idRecipe);
     List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory);
+    List<Recipe> getRecipesForUser(Long idUser);
     void decreaseProducts(Long idRecipe, Long idUser);
 } 
