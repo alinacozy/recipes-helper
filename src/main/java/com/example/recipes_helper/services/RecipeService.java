@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.recipes_helper.model.ListProduct;
@@ -62,9 +63,14 @@ public class RecipeService {
         for (ListProduct recipeProduct : recipeProducts){
             Optional<UserProduct> userProductOptional=userProductRepository.findByUserIdAndProductId(idUser, recipeProduct.getProductId());
             if (!userProductOptional.isPresent()){ // если у пользователя нет этого продукта
-                throw new EntityNotFoundException("This user doesn't have this product: ");
+                throw new EntityNotFoundException(
+                    String.format("This user doesn't have this product (productId:%d, productName: %s). ", recipeProduct.getProductId(), recipeProduct.getProduct().getProductName()));
             }
             UserProduct userProduct=userProductOptional.get();
+            if (userProduct.getCount() - recipeProduct.getCount() < 0){ // если у пользователя не хватает продуктов для рецепта
+                throw new DataIntegrityViolationException(
+                    String.format("This user doesn't have enough product to cook the recipe (productId:%d, productName: %s). ", recipeProduct.getProductId(), recipeProduct.getProduct().getProductName()));
+            }
             // количество данного продукта уменьшается настолько, насколько необходимо для рецепта
             userProduct.setCount(userProduct.getCount() - recipeProduct.getCount()); 
             userProductRepository.save(userProduct);
