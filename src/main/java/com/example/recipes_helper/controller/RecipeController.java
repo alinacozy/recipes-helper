@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.recipes_helper.DTO.RecipeWithIngredientsDTO;
+import com.example.recipes_helper.model.ProductCategory;
 import com.example.recipes_helper.model.Recipe;
 import com.example.recipes_helper.model.RecipeCategory;
 import com.example.recipes_helper.model.UserHistory;
@@ -30,30 +32,18 @@ public class RecipeController {
 	}
 
 	@GetMapping("/recipes") // все рецепты, здесь в параметрах передаются фильтры
-	public List<Recipe> getRecipes(@RequestParam(required = false) RecipeCategory recipeCategory) {
-		return recipeService.getRecipesByCategory(recipeCategory);
+	public List<Recipe> getRecipes(@RequestParam(required = false) RecipeCategory recipeCategory, @RequestParam(required = false) ProductCategory productCategory) {
+		return recipeService.getRecipesByCategory(recipeCategory, productCategory);
 	}
 
-	@GetMapping("/recipes/{idRecipe}") // конкретный рецепт
-	public Recipe getRecipe(@PathVariable(name = "idRecipe") Long idRecipe) {
-		Recipe recipe = recipeService.getRecipeById(idRecipe);
-		if (recipe == null) {
-			// обработка ситуации, когда рецепт не найден
-			return null;
-		}
-
-		// List<ListProduct> listProducts = listProductRepository.findByRecipe(idRecipe);
-		// List<Product> products = new ArrayList<>();
-		// for (ListProduct lp : listProducts) {
-		// 	Product product = productRepository.findByProductId(lp.getProductId());
-		// 	products.add(product);
-		// }
-		return recipe;
+	@GetMapping("/recipes/{idRecipe}") // конкретный рецепт с ингредиентами
+	public RecipeWithIngredientsDTO getRecipe(@PathVariable(name = "idRecipe") Long idRecipe) {
+		return recipeService.getRecipeWithIngredientsById(idRecipe);
 	}
 
 	@GetMapping("/user_recipes/{idUser}")
-	public List<Recipe> getRecipesForUser(@PathVariable Long idUser) {
-		return recipeService.getRecipesForUser(idUser);
+	public List<Recipe> getRecipesForUser(@PathVariable Long idUser, @RequestParam(required = false) RecipeCategory recipeCategory, @RequestParam(required = false) ProductCategory productCategory) {
+		return recipeService.getRecipesForUser(idUser, recipeCategory, productCategory);
 	}
 
 	@PostMapping("/recipes/{idRecipe}/{idUser}")

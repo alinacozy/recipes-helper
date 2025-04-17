@@ -1,5 +1,6 @@
 package com.example.recipes_helper.controller;
 
+import com.example.recipes_helper.DTO.IngredientDTO;
 import com.example.recipes_helper.model.Product;
 import com.example.recipes_helper.model.UserProduct;
 import com.example.recipes_helper.services.ProductService;
@@ -29,8 +30,9 @@ public class ProductContoller {
     }
 
     @GetMapping("/{userId}")
-    public List<UserProduct> findAllProductsByUser (@PathVariable Long userId){
+    public List<IngredientDTO> findAllProductsByUser (@PathVariable Long userId){
         return service.findAllProductsByUser(userId);
+
     }
 
     @PutMapping("/{userId}")

@@ -1,5 +1,6 @@
 package com.example.recipes_helper.controller;
 
+import com.example.recipes_helper.DTO.UserHistoryDTO;
 import com.example.recipes_helper.DTO.UserHistoryRequest;
 import com.example.recipes_helper.model.UserHistory;
 import com.example.recipes_helper.services.HistoryService;
@@ -20,13 +21,12 @@ public class HistoryController {
     private final HistoryService service;
 
     @GetMapping("/{userId}")
-    public List<UserHistory> findHistoryByUser (@PathVariable Long userId){
+    public List<UserHistoryDTO> findHistoryByUser (@PathVariable Long userId){
         return service.findHistoryByUser(userId);
     }
 
     @PostMapping("/{userId}")
     public UserHistory saveRating (@PathVariable Long userId, @RequestBody UserHistoryRequest request){
-
         return service.saveRating(userId, request.getRecipeId(), request.getRating());
     }
     

@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.example.recipes_helper.DTO.IngredientDTO;
+import com.example.recipes_helper.DTO.RecipeWithIngredientsDTO;
 import com.example.recipes_helper.model.ListProduct;
 import com.example.recipes_helper.model.Product;
+import com.example.recipes_helper.model.ProductCategory;
 import com.example.recipes_helper.model.Recipe;
 import com.example.recipes_helper.model.RecipeCategory;
 import com.example.recipes_helper.model.UserProduct;
@@ -45,6 +48,22 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    public RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe){
+        Recipe recipe = recipeRepository.findByRecipeId(idRecipe);
+        if (recipe == null) {
+			// обработка ситуации, когда рецепт не найден
+			return null;
+		}
+        List<ListProduct> listProducts = listProductRepository.findByRecipe(idRecipe);
+		List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+		for (ListProduct lp : listProducts) {
+			Product product = productRepository.findByProductId(lp.getProductId());
+			ingredients.add(new IngredientDTO(product.getProductId(), product.getProductName(), lp.getCount(), product.getUnit(), product.getProductCategory()));
+		}
+		return new RecipeWithIngredientsDTO(idRecipe, recipe.getRecipeName(), recipe.getDescription(), recipe.getRecipeCategory(), ingredients);
+    }
+
+    @Override
     public List<Product> getProductsByRecipeId(Long idRecipe){
         List<ListProduct> listProducts=listProductRepository.findByRecipe(idRecipe);
         List<Product> products = new ArrayList<Product>();
@@ -55,19 +74,41 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory){
+    public List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory, ProductCategory productCategory){
+        List<Recipe> recipes;
 		if (recipeCategory!=null){ //если значение параметра пришло (не null)
-			return (List<Recipe>) recipeRepository.findByRecipeCategory(recipeCategory);
-		}
-		//если параметр не пришел:
-		return (List<Recipe>) recipeRepository.findAll();
+			recipes = (List<Recipe>) recipeRepository.findByRecipeCategory(recipeCategory);
+		} else{ //если параметр не пришел:
+		    recipes = (List<Recipe>) recipeRepository.findAll();
+        }
+
+        if (productCategory == ProductCategory.Постное){ // должны вывестись рецепты, содержащие только постные продукты
+            List <Recipe> result=new ArrayList<>();
+            for (Recipe recipe : recipes){
+                List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
+                boolean isLean=true;
+                for (ListProduct lp : listProducts) { //проходим по продуктам рецепта
+                    Product product = lp.getProduct();
+                    if (product.getProductCategory()!=ProductCategory.Постное){
+                        isLean=false;
+                        break;
+                    }
+                }
+                if (isLean){
+                    result.add(recipe);
+                }
+            }
+            return result;
+        }
+
+        return recipes;
     }
 
     @Override
-    public List<Recipe> getRecipesForUser(Long idUser){
+    public List<Recipe> getRecipesForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory){
         List<Recipe> availableRecipes = new ArrayList<>();
-		Iterable<Recipe> allRecipes = recipeRepository.findAll();
-		for (Recipe recipe : allRecipes) {
+		List<Recipe> allRecipesWithFilters = getRecipesByCategory(recipeCategory, productCategory);
+		for (Recipe recipe : allRecipesWithFilters) {
 			List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
 			boolean canPrepare = true;
 			for (ListProduct lp : listProducts) {

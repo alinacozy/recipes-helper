@@ -1,10 +1,10 @@
 package com.example.recipes_helper.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,9 +28,8 @@ public class UserHistory {
     private Long recipeId;
 
     @Column(columnDefinition = "DATE")
-    @UpdateTimestamp
-    // дата обновится, если пользователь повторит рецепт 
-    private Date date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date;
 
     @Column
     private Rating rate;
