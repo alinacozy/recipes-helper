@@ -2,8 +2,6 @@ package com.example.recipes_helper.model;
 
 import java.util.List;
 
-import lombok.Builder;
-import org.mindrot.jbcrypt.BCrypt;
 import lombok.Data;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 @Data
