@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Learn&Play</title>
-    <link rel="stylesheet"  th:href="@{src\main\resources\css\main.css}"/>
+    <link rel="stylesheet"  href="@{src\main\resources\css\main.css}"/>
 </head>
 <body>
 <ul class="menu-main">
@@ -12,7 +12,7 @@
     <li><a href="">История приготовления</a></li>
     <li><a href="">Выход</a></li>
 </ul>
-      
+
 </body>
 </html>
 
@@ -60,13 +60,13 @@
   transition: .8s;
 }
 .menu-main a:hover:before, .menu-main .current:before {left: 0;}
-.menu-main a:hover:after, .menu-main .current:after {right: 0;}   
+.menu-main a:hover:after, .menu-main .current:after {right: 0;}
 @media (max-width: 550px) {
 .menu-main {padding-top: 0;}
 .menu-main li {display: block;}
 .menu-main li:after {content: none;}
 .menu-main a {
-  padding: 25px 0 20px; 
+  padding: 25px 0 20px;
   margin: 0 30px;
 }
 }
