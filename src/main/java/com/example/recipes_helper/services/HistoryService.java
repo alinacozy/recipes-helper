@@ -10,4 +10,6 @@ public interface HistoryService {
     UserHistory saveRating(Long userId, Long recipeId, Rating rating);
     UserHistory saveCookedRecipe(Long userId, Long recipeId);
 
+    class UserService {
+    }
 }

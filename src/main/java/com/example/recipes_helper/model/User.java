@@ -34,5 +34,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserProduct> userProducts;
 
-    protected User() {}
+    public User() {}
 }
