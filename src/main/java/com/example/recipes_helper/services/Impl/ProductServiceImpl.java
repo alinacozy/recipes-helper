@@ -1,5 +1,6 @@
 package com.example.recipes_helper.services.Impl;
 
+import com.example.recipes_helper.DTO.IngredientDTO;
 import com.example.recipes_helper.model.Product;
 import com.example.recipes_helper.model.UserProduct;
 import com.example.recipes_helper.repository.ProductRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +26,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<UserProduct> findAllProductsByUser(Long userId) {
-        return userProductRepository.findAllByUserId(userId);
+    public List<IngredientDTO> findAllProductsByUser(Long userId) {
+        List<UserProduct> userProducts = userProductRepository.findAllByUserId(userId);
+        List<IngredientDTO> userIngredients = new ArrayList<>();
+        for (UserProduct up : userProducts){
+            Product product = up.getProduct();
+            userIngredients.add(new IngredientDTO(product.getProductId(), product.getProductName(), up.getCount(), product.getUnit(), product.getProductCategory()));
+        }
+        return userIngredients;
     }
 
     @Override
