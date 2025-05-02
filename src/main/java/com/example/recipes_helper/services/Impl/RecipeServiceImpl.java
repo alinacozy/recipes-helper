@@ -83,7 +83,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory, ProductCategory productCategory){
+    public List<Recipe> getRecipesByCategoryForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory, boolean available){
         List<Recipe> recipes;
 		if (recipeCategory!=null){ //если значение параметра пришло (не null)
 			recipes = (List<Recipe>) recipeRepository.findByRecipeCategory(recipeCategory);
@@ -109,6 +109,25 @@ public class RecipeServiceImpl implements RecipeService{
             }
             return result;
         }
+        if (available){
+            List<Recipe> availableRecipes = new ArrayList<>();
+	        for (Recipe recipe : recipes) {
+			    List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
+			    boolean canPrepare = true;
+                for (ListProduct lp : listProducts) {
+                    Optional<UserProduct> userProduct = userProductRepository.findByUserIdAndProductId(idUser, lp.getProductId());
+                    if (!userProduct.isPresent() || userProduct.get().getCount() < lp.getCount()) {
+                        canPrepare = false;
+                        break;
+                    }
+                }
+                if (canPrepare) {
+                    availableRecipes.add(recipe);
+                }
+            }
+            return availableRecipes;
+        }
+
 
         return recipes;
     }
@@ -116,7 +135,7 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     public List<Recipe> getRecipesForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory){
         List<Recipe> availableRecipes = new ArrayList<>();
-		List<Recipe> allRecipesWithFilters = getRecipesByCategory(recipeCategory, productCategory);
+		List<Recipe> allRecipesWithFilters = getRecipesByCategoryForUser(idUser, recipeCategory, productCategory, false);
 		for (Recipe recipe : allRecipesWithFilters) {
 			List<ListProduct> listProducts = listProductRepository.findByRecipe(recipe.getRecipeId());
 			boolean canPrepare = true;

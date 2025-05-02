@@ -13,7 +13,7 @@ public interface RecipeService {
     Recipe getRecipeById(Long idRecipe);
     RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe, Long idUser);
     List<Product> getProductsByRecipeId(Long idRecipe);
-    List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory, ProductCategory productCategory);
+    List<Recipe> getRecipesByCategoryForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory, boolean available);
     List<Recipe> getRecipesForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory);
     void decreaseProducts(Long idRecipe, Long idUser);
 } 

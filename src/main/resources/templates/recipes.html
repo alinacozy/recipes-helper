@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Рецепты</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .filters-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 300px;
+            background-color: white;
+        }
+        .radio-options {
+            display: flex;
+            gap: 15px;
+        }
+        .checkbox-options {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+        }
+        .radio-option input, .checkbox-option input {
+            margin-right: 5px;
+        }
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button, .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-reset {
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            line-height: normal;
+        }
+        button:hover, .btn:hover {
+            opacity: 0.9;
+        }
+        .recipes-list {
+            list-style: none;
+            padding: 0;
+        }
+        .recipe-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .recipe-title {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin: 0 0 5px 0;
+            text-decoration: none;
+            display: block;
+        }
+        .recipe-title:hover {
+            text-decoration: underline;
+        }
+        .recipe-description {
+            color: #666;
+            margin: 5px 0;
+        }
+        .recipe-category {
+            font-style: italic;
+            color: #7f8c8d;
+            margin: 5px 0 0 0;
+        }
+    </style>
+
+    <!-- то что ниже - розовый стиль от нейронки) -->
+    <!-- <style> 
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #fff5f7; /* Нежно-розовый фон */
+        }
+        h1 {
+            color: rgb(209, 26, 117); /* Ярко-розовый для заголовка */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.2);
+        }
+        .filters-container {
+            background-color: #ffeef2; /* Светло-розовый фон */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(214, 51, 132, 0.1); /* Розовая тень */
+            border: 1px solid #ffcce0; /* Розовая граница */
+        }
+        .filter-group label {
+            display: block;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            font-weight: bold;
+            color: #c2185b; /* Темно-розовый для меток */
+        }
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ffb6c1; /* Розовая граница */
+            border-radius: 4px;
+            width: 100%;
+            max-width: 300px;
+            background-color: white;
+            color: rgb(224, 102, 163); /* Розовый текст */
+        }
+        select:focus {
+            outline: 2px solid rgb(224, 102, 163); /* Ярко-розовый контур при фокусе */
+        }
+        .radio-options, .checkbox-options {
+            display: flex;
+            gap: 15px;
+        }
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+        }
+        .radio-option input[type="radio"], 
+        .checkbox-option input[type="checkbox"] {
+            accent-color: rgb(224, 102, 163); /* Розовый цвет для радио и чекбоксов */
+            margin-right: 5px;
+        }
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: rgb(224, 102, 163); /* Ярко-розовая кнопка */
+            color: white;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: rgb(211, 86, 149); /* Темнее при наведении */
+            transform: translateY(-1px);
+        }
+        .btn-reset {
+            padding: 10px 15px;
+            background-color: #ffc9de; /* Светло-розовый */
+            color: #c2185b; /* Темно-розовый текст */
+            text-decoration: none;
+            display: inline-block;
+            line-height: normal;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .btn-reset:hover {
+            background-color: #f1bad0; /* Темнее при наведении */
+            color: #d63384;
+            transform: translateY(-1px);
+        }
+        .recipes-list {
+            list-style: none;
+            padding: 0;
+        }
+        .recipe-item {
+            background-color: white;
+            border: 1px solid #ffcce0; /* Розовая граница */
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(214, 51, 132, 0.1); /* Розовая тень */
+            transition: all 0.3s ease;
+        }
+        .recipe-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(214, 51, 132, 0.15);
+        }
+        .recipe-title {
+            color: #d63384; /* Розовый заголовок */
+            font-size: 1.2em;
+            margin: 0 0 5px 0;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s ease;
+        }
+        .recipe-title:hover {
+            color: #c2185b; /* Темнее при наведении */
+            text-decoration: underline;
+        }
+        .recipe-description {
+            color: #727272;
+            margin: 5px 0;
+        }
+        .recipe-category {
+            font-style: italic;
+            color: rgb(224, 102, 163); /* Розовый цвет для категорий */
+            margin: 5px 0 0 0;
+        }
+    </style> -->
+    
+</head>
+<body>
+    <h1>Рецепты</h1>
+    
+    <div class="filters-container">
+        <form th:action="@{/recipes}" method="get">
+            <!-- Фильтр по категории рецепта -->
+            <div class="filter-group">
+                <label for="recipeCategory">Категория рецепта:</label>
+                <select id="recipeCategory" name="recipeCategory">
+                    <option value="">Все категории</option>
+                    <option th:each="category : ${T(com.example.recipes_helper.model.RecipeCategory).values()}"
+                            th:value="${category}"
+                            th:text="${category}"
+                            th:selected="${param.recipeCategory != null && param.recipeCategory[0] == category.name()}">
+                    </option>
+                </select>
+            </div>
+            
+            <!-- Фильтр по категории продукта -->
+            <div class="filter-group">
+                <label>Тип блюда:</label>
+                <div class="radio-options">
+                    <div class="radio-option">
+                        <input type="radio" id="allProducts" name="productCategory" value="" 
+                               th:checked="${param.productCategory == null || param.productCategory[0] == ''}">
+                        <label for="allProducts">Любой тип</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="postnoe" name="productCategory" value="Постное"
+                               th:checked="${param.productCategory != null && param.productCategory[0] == 'Постное'}">
+                        <label for="postnoe">Постное</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Фильтр "Доступные мне" -->
+            <div class="filter-group">
+                <div class="checkbox-options">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="available" name="available" value="true"
+                               th:checked="${param.available != null && param.available[0] == 'true'}">
+                        <label for="available">Доступные мне</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Применить фильтры</button>
+                <a th:href="@{/recipes}" class="btn btn-reset">Сбросить фильтры</a>
+            </div>
+        </form>
+    </div>
+    
+    <ul class="recipes-list">
+        <li th:each="recipe : ${recipes}" class="recipe-item">
+            <a th:href="@{'/recipes/' + ${recipe.recipeId}}" class="recipe-title" th:text="${recipe.recipeName}"></a>
+            <p class="recipe-description" th:text="${recipe.description}"></p>
+            <p class="recipe-category">
+                Категория: <span th:text="${recipe.recipeCategory}"></span>
+            </p>
+        </li>
+    </ul>
+</body>
+</html>

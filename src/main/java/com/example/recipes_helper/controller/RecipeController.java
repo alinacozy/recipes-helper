@@ -36,9 +36,14 @@ public class RecipeController {
 	}
 
 	@GetMapping("/recipes") // все рецепты, здесь в параметрах передаются фильтры
-	@ResponseBody
-	public List<Recipe> getRecipes(@RequestParam(required = false) RecipeCategory recipeCategory, @RequestParam(required = false) ProductCategory productCategory) {
-		return recipeService.getRecipesByCategory(recipeCategory, productCategory);
+	public String getRecipes(@AuthenticationPrincipal MyUserDetails userDetails, Model model, 
+		@RequestParam(required = false) RecipeCategory recipeCategory, 
+		@RequestParam(required = false) ProductCategory productCategory, 
+		@RequestParam(required = false) boolean available) {
+		Long currentUserId = userDetails.getId();
+		List<Recipe> listOfRecipes = recipeService.getRecipesByCategoryForUser(currentUserId, recipeCategory, productCategory, available);
+		model.addAttribute("recipes", listOfRecipes);
+		return "recipes.html";
 	}
 
 	@GetMapping("/recipes/{idRecipe}") // конкретный рецепт с ингредиентами
