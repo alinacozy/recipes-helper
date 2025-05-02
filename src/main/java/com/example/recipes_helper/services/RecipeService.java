@@ -11,7 +11,7 @@ import com.example.recipes_helper.model.RecipeCategory;
 
 public interface RecipeService {
     Recipe getRecipeById(Long idRecipe);
-    RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe);
+    RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe, Long idUser);
     List<Product> getProductsByRecipeId(Long idRecipe);
     List<Recipe> getRecipesByCategory(RecipeCategory recipeCategory, ProductCategory productCategory);
     List<Recipe> getRecipesForUser(Long idUser, RecipeCategory recipeCategory, ProductCategory productCategory);

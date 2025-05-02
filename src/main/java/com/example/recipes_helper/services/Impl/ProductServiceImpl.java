@@ -1,6 +1,6 @@
 package com.example.recipes_helper.services.Impl;
 
-import com.example.recipes_helper.DTO.IngredientDTO;
+import com.example.recipes_helper.DTO.ProductDTO;
 import com.example.recipes_helper.model.Product;
 import com.example.recipes_helper.model.UserProduct;
 import com.example.recipes_helper.repository.ProductRepository;
@@ -26,12 +26,12 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<IngredientDTO> findAllProductsByUser(Long userId) {
+    public List<ProductDTO> findAllProductsByUser(Long userId) {
         List<UserProduct> userProducts = userProductRepository.findAllByUserId(userId);
-        List<IngredientDTO> userIngredients = new ArrayList<>();
+        List<ProductDTO> userIngredients = new ArrayList<>();
         for (UserProduct up : userProducts){
             Product product = up.getProduct();
-            userIngredients.add(new IngredientDTO(product.getProductId(), product.getProductName(), up.getCount(), product.getUnit(), product.getProductCategory()));
+            userIngredients.add(new ProductDTO(product.getProductId(), product.getProductName(), up.getCount(), product.getUnit(), product.getProductCategory()));
         }
         return userIngredients;
     }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Продукты</title>
+</head>
+<body>
+<h1>Редактор продуктов</h1>
+<p>Здесь вы можете добавить продукт или увеличить его количество.</p>
+<form th:action="@{/products}" th:object="${UserProductRequest}" method="post">
+    <label for="userName">Id продукта:</label>
+    <input type="text" id="userName" th:field="*{productId}" /><br />
+
+    <label for="password">Количество:</label>
+    <input type="text" id="password" th:field="*{count}" /><br />
+
+
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

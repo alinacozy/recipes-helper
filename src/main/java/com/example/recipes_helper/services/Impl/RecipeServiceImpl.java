@@ -48,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe){
+    public RecipeWithIngredientsDTO getRecipeWithIngredientsById(Long idRecipe, Long idUser){
         Recipe recipe = recipeRepository.findByRecipeId(idRecipe);
         if (recipe == null) {
 			// обработка ситуации, когда рецепт не найден
@@ -56,11 +56,20 @@ public class RecipeServiceImpl implements RecipeService{
 		}
         List<ListProduct> listProducts = listProductRepository.findByRecipe(idRecipe);
 		List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+        boolean canCook=true;
 		for (ListProduct lp : listProducts) {
 			Product product = productRepository.findByProductId(lp.getProductId());
-			ingredients.add(new IngredientDTO(product.getProductId(), product.getProductName(), lp.getCount(), product.getUnit(), product.getProductCategory()));
+            Optional<UserProduct> userProduct = userProductRepository.findByUserIdAndProductId(idUser, lp.getProductId());
+            int missing = lp.getCount();
+            if (userProduct.isPresent()){
+                missing = Math.max(0, lp.getCount() - userProduct.get().getCount());
+            }
+            if (missing>0){
+                canCook=false;
+            }
+			ingredients.add(new IngredientDTO(product.getProductId(), product.getProductName(), lp.getCount(), missing, product.getUnit(), product.getProductCategory()));
 		}
-		return new RecipeWithIngredientsDTO(idRecipe, recipe.getRecipeName(), recipe.getDescription(), recipe.getRecipeCategory(), ingredients);
+		return new RecipeWithIngredientsDTO(idRecipe, recipe.getRecipeName(), recipe.getDescription(), recipe.getRecipeCategory(), ingredients, canCook);
     }
 
     @Override
@@ -135,6 +144,7 @@ public class RecipeServiceImpl implements RecipeService{
                 throw new EntityNotFoundException(
                     String.format("This user doesn't have this product (productId:%d, productName: %s). ", recipeProduct.getProductId(), recipeProduct.getProduct().getProductName()));
             }
+            
             UserProduct userProduct=userProductOptional.get();
             if (userProduct.getCount() - recipeProduct.getCount() < 0){ // если у пользователя не хватает продуктов для рецепта
                 throw new DataIntegrityViolationException(

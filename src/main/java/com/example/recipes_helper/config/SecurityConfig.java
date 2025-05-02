@@ -1,7 +1,6 @@
 package com.example.recipes_helper.config;
 
 import com.example.recipes_helper.services.MyUserDetailsService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
 //        requestMatchers("/login", "/"/login"").anonymous().
-                .authorizeHttpRequests(auth ->auth.requestMatchers("/login", "/signup").anonymous().requestMatchers("/recipes", "/login", "/new-user", "/signup").permitAll()
+                .authorizeHttpRequests(auth ->auth.requestMatchers("/login", "/signup").anonymous().requestMatchers("/", "/recipes", "/login", "/new-user", "/signup").permitAll()
                     .requestMatchers("/**").authenticated())
 //                .formLogin((form) -> form
 //                        .loginPage("/register")
@@ -51,6 +49,7 @@ public class SecurityConfig {
 //                .build();
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll).build();
     }
+    
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

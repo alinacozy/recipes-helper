@@ -1,12 +1,15 @@
 package com.example.recipes_helper.controller;
 
-import com.example.recipes_helper.DTO.IngredientDTO;
+import com.example.recipes_helper.DTO.ProductDTO;
+import com.example.recipes_helper.DTO.UserProductRequest;
+import com.example.recipes_helper.config.MyUserDetails;
 import com.example.recipes_helper.model.Product;
 import com.example.recipes_helper.model.UserProduct;
 import com.example.recipes_helper.services.ProductService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,26 +22,31 @@ public class ProductContoller {
     @Autowired
     private final ProductService service;
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<Product> findAllProducts (){
         return service.findAllProducts();
     }
 
-    @PostMapping("/{userId}")
-    public UserProduct saveProduct (@RequestBody UserProduct product){
-        return service.saveProduct(product);
+    @PostMapping("")
+    public UserProduct saveProduct (@AuthenticationPrincipal MyUserDetails userDetails, @ModelAttribute UserProductRequest product){
+        UserProduct userProduct=new UserProduct();
+        userProduct.setProductId(product.getProductId());
+        userProduct.setUserId(userDetails.getId());
+        userProduct.setCount(product.getCount());
+
+        return service.saveProduct(userProduct);
     }
 
-    @GetMapping("/{userId}")
-    public List<IngredientDTO> findAllProductsByUser (@PathVariable Long userId){
-        return service.findAllProductsByUser(userId);
+    @GetMapping("")
+    public List<ProductDTO> findAllProductsByUser (@AuthenticationPrincipal MyUserDetails userDetails){
+        return service.findAllProductsByUser(userDetails.getId());
 
     }
 
-    @PutMapping("/{userId}")
-    public UserProduct updateProduct (@RequestBody UserProduct product){
-        return service.updateProduct(product);
-    }
+    // @PutMapping("/{userId}")
+    // public UserProduct updateProduct (@RequestBody UserProduct product){
+    //     return service.updateProduct(product);
+    // }
 
 
 }

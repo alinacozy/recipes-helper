@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Рецепт</title>
+</head>
+<body>
+    <h1 th:text="${recipe.name}"></h1>
+    <p th:text="${recipe.description}"></p>
+    <div th:if="${recipe.ingredients != null}">
+        <h2>Ингридиенты:</h2>
+        <ul>
+            <li th:each="ingredient : ${recipe.ingredients}">
+                <span th:text="${ingredient.productName + ' - ' + ingredient.count + ' ' + ingredient.unit + '.'}"></span>
+                <span th:if="${ingredient.missing>0}"
+                    th:text="${'Вам не хватает '+ ingredient.missing + ' ' + ingredient.unit}"></span>
+            </li>
+        </ul>
+    </div>
+    <div th:if="${recipe.canCook}">
+        <p>Если вы нажмете "Приготовить", у вас уменьшится количество продуктов на соответствующие значения, а также рецепт добавится в историю.</p>
+        <form th:action="@{/recipes/cook}" method="post">
+            <input type="hidden" name="recipeId" th:value="${recipe.recipeId}"/>
+            <button type="submit">Приготовить</button>
+        </form>
+        <!-- <form th:action="@{/test-post}" method="post">
+            <input type="hidden" name="recipeId" th:value="${recipe.recipeId}"/>
+            <button type="submit">Тест</button>
+        </form> -->
+    </div>
+</body>
+</html>

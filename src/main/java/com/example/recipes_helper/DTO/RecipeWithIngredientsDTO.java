@@ -15,4 +15,5 @@ public class RecipeWithIngredientsDTO {
     private String description;
     private RecipeCategory category;
     private List<IngredientDTO> ingredients;
+    private boolean canCook;
 }
