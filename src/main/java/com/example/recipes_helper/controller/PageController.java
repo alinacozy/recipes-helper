@@ -40,10 +40,9 @@ public class PageController {
         return "recipe_success.html";
     }
 
-//    @GetMapping("/login")
-//    public String showAutorizationForm(Model model) {
-//        return "login";
-//    }
-
+   @GetMapping("/login")
+   public String showAutorizationForm(Model model) {
+       return "login";
+   }
 
 }
