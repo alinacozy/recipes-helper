@@ -23,11 +23,10 @@ public class PageController {
         return "signup.html";
     }
 
-    // @GetMapping("/settings")
-    // public String showSettingsForm(Model model) {
-    //     model.addAttribute("user", new User()); // todo
-    //     return "settings.html";
-    // }
+    @GetMapping("/settings")
+    public String showSettingsForm() {
+        return "settings"; 
+    }
 
     @GetMapping("/edit_products")
     public String showProductForm(Model model) {
@@ -40,9 +39,9 @@ public class PageController {
         return "recipe_success.html";
     }
 
-   @GetMapping("/login")
-   public String showAutorizationForm(Model model) {
-       return "login";
-   }
+    @GetMapping("/login")
+    public String showAutorizationForm(Model model) {
+        return "login";
+    }
 
 }

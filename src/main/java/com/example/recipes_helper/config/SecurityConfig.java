@@ -10,7 +10,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,7 +61,13 @@ public class SecurityConfig {
                 .requestMatchers("/**").authenticated()
             )
             .httpBasic(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+            .formLogin(form -> form
+                .loginPage("/login")             // URL нашей страницы логина
+                .loginProcessingUrl("/login")    // URL, куда отправляется POST с формой логина
+                .defaultSuccessUrl("/recipes", true) // перенаправлять после успешного входа
+                .failureUrl("/login?error=true")  // перенаправлять при ошибке
+                .permitAll()
+            )
             .build();
     }
     
