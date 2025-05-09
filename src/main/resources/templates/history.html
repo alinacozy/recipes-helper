@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>История приготовлений</title>
+</head>
+<body>
+    <h1>История приготовлений</h1>
+    <ul>
+        <li th:each="recipe : ${history}">
+            <a th:href="@{'/recipes/' + ${recipe.recipeId}}" th:text="${recipe.recipeName}"></a>
+            <p> Дата последнего приготовления: <span th:text="${recipe.date}"></span></p>
+            <p>
+                <span th:if="${recipe.rate == null}">Нет оценки</span>
+                <span th:unless="${recipe.rate == null}">Оценка: <span th:text="${recipe.rate.description}"></span></span>
+            </p>
+
+            <!-- форма для изменения оценки -->
+            <form th:action="@{/history}" method="post"> 
+                <input type="hidden" name="recipeId" th:value="${recipe.recipeId}" />
+                <label for="rating" th:if="${recipe.rate == null}">Поставить оценку:</label>
+                <label for="rating" th:unless="${recipe.rate == null}">Изменить оценку:</label>
+                <select name="rating" id="rating" required>
+                    <option value="" disabled selected>Выберите оценку</option>
+                    <option th:each="rate : ${ratings}"
+                        th:value="${rate.name()}"
+                        th:text="${rate.description}"
+                        th:selected="${rate == recipe.rate}">
+                    </option>
+                </select>
+                <button type="submit">Сохранить</button>
+            </form>
+
+        </li>
+    </ul>
+</body>
+</html>

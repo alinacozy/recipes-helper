@@ -38,7 +38,11 @@ public class HistoryServiceImpl implements HistoryService {
             return null; // нужно ли как-то обработать такое исключение? что делать?
         }
         UserHistory existing = existingUserHistory.get();
-        existing.setRate(rating);
+        if (rating == Rating.NONE) {
+            existing.setRate(null); // отсутствие оценки
+        } else {
+            existing.setRate(rating);
+        }
         return userHistoryRepository.save(existing);
     }
 
