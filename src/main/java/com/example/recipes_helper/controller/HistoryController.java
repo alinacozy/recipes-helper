@@ -7,6 +7,7 @@ import com.example.recipes_helper.services.HistoryService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,5 +30,16 @@ public class HistoryController {
     public UserHistory saveRating (@PathVariable Long userId, @RequestBody UserHistoryRequest request){
         return service.saveRating(userId, request.getRecipeId(), request.getRating());
     }
-    
+
+//    @GetMapping()
+//    public List<UserHistoryDTO> findHistoryByUser (@AuthenticationPrincipal Long userId){
+//        return service.findHistoryByUser(userId);
+//    }
+//
+//    @PostMapping()
+//    public UserHistory saveRating (@AuthenticationPrincipal Long userId, @RequestBody UserHistoryRequest request){
+//        return service.saveRating(userId, request.getRecipeId(), request.getRating());
+//    }
+
+
 }

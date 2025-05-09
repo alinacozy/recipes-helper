@@ -68,6 +68,12 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")  // перенаправлять при ошибке
                 .permitAll()
             )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
             .build();
     }
     
