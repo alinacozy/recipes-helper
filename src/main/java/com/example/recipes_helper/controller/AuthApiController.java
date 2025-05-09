@@ -1,5 +1,6 @@
 package com.example.recipes_helper.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,26 +11,31 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recipes_helper.config.JwtTokenUtil;
+import com.example.recipes_helper.services.TokenBlacklistService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class AuthApiController {
 
+    @Autowired
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
     private final JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
     private final UserDetailsService userDetailsService;
 
-    public AuthApiController(AuthenticationManager authenticationManager,
-                             JwtTokenUtil jwtTokenUtil,
-                             UserDetailsService userDetailsService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-    }
+    @Autowired
+    private final TokenBlacklistService tokenBlacklistService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
@@ -43,6 +49,19 @@ public class AuthApiController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect username or password");
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+        }
+
+        String token = authHeader.substring(7);
+        long expiry = jwtTokenUtil.extractExpiration(token).toInstant().getEpochSecond(); //время истечения токена
+        tokenBlacklistService.blacklistToken(token, expiry);
+
+        return ResponseEntity.ok().body("Logged out successfully");
     }
 
     // DTO классы

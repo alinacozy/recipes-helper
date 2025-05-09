@@ -2,6 +2,7 @@ package com.example.recipes_helper.controller;
 
 import com.example.recipes_helper.DTO.UserHistoryDTO;
 import com.example.recipes_helper.DTO.UserHistoryRequest;
+import com.example.recipes_helper.config.MyUserDetails;
 import com.example.recipes_helper.model.UserHistory;
 import com.example.recipes_helper.services.HistoryService;
 import lombok.AllArgsConstructor;
@@ -21,20 +22,20 @@ public class HistoryController {
     @Autowired
     private final HistoryService service;
 
-    @GetMapping("/{userId}")
-    public List<UserHistoryDTO> findHistoryByUser (@PathVariable Long userId){
-        return service.findHistoryByUser(userId);
-    }
+    // @GetMapping("/{userId}")
+    // public List<UserHistoryDTO> findHistoryByUser (@PathVariable Long userId){
+    //     return service.findHistoryByUser(userId);
+    // }
 
     @PostMapping("/{userId}")
     public UserHistory saveRating (@PathVariable Long userId, @RequestBody UserHistoryRequest request){
         return service.saveRating(userId, request.getRecipeId(), request.getRating());
     }
 
-//    @GetMapping()
-//    public List<UserHistoryDTO> findHistoryByUser (@AuthenticationPrincipal Long userId){
-//        return service.findHistoryByUser(userId);
-//    }
+   @GetMapping()
+   public List<UserHistoryDTO> findHistoryByUser (@AuthenticationPrincipal MyUserDetails userDetails){
+       return service.findHistoryByUser(userDetails.getId());
+   }
 //
 //    @PostMapping()
 //    public UserHistory saveRating (@AuthenticationPrincipal Long userId, @RequestBody UserHistoryRequest request){

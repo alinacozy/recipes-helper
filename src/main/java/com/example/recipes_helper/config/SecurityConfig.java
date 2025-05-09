@@ -1,6 +1,8 @@
 package com.example.recipes_helper.config;
 
 import com.example.recipes_helper.services.MyUserDetailsService;
+import com.example.recipes_helper.services.TokenBlacklistService;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -91,8 +93,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtRequestFilter jwtRequestFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
-        return new JwtRequestFilter(userDetailsService, jwtTokenUtil);
+    public JwtRequestFilter jwtRequestFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, TokenBlacklistService tokenBlacklistService) {
+        return new JwtRequestFilter(userDetailsService, jwtTokenUtil, tokenBlacklistService);
     }
 
 }
