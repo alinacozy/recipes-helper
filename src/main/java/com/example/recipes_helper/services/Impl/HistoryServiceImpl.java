@@ -32,6 +32,13 @@ public class HistoryServiceImpl implements HistoryService {
         return result;
     }
 
+    public UserHistoryDTO findHistoryByUserAndRecipe(Long userId, Long recipeId){
+        UserHistory uh = userHistoryRepository.findByUserIdAndRecipeId(userId, recipeId)
+            .orElseThrow(() -> new RuntimeException("Recipe history not found")); // ищем историю данного рецепта по id юзера и рецепта
+        UserHistoryDTO result = new UserHistoryDTO(uh.getRecipeId(), uh.getRecipe().getRecipeName(), uh.getDate(), uh.getRate());
+        return result;
+    }
+
     public UserHistory saveRating(Long userId, Long recipeId, Rating rating) {
         Optional<UserHistory> existingUserHistory = userHistoryRepository.findByUserIdAndRecipeId(userId, recipeId);
         if (!existingUserHistory.isPresent()) {

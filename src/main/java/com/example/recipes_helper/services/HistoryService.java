@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface HistoryService {
     List<UserHistoryDTO> findHistoryByUser(Long userId);
+    UserHistoryDTO findHistoryByUserAndRecipe(Long userId, Long recipeId);
     UserHistory saveRating(Long userId, Long recipeId, Rating rating);
     UserHistory saveCookedRecipe(Long userId, Long recipeId);
 

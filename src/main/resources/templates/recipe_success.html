@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Рецепт</title>
 </head>
 <body>
-    <h1>Вы успешно приготовили рецепт!</h1>
-    <h2> Оцените рецепт ...</h2>
+    <h1 th:text="'Вы успешно приготовили ' + ${recipe.recipeName} + '!'"></h1>
+
+    <form th:action="@{/history}" method="post"> 
+        <input type="hidden" name="recipeId" th:value="${recipe.recipeId}" />
+        <label for="rating">Оцените рецепт:</label>
+        <select name="rating" id="rating" required>
+            <option value="" disabled selected>Выберите оценку</option>
+            <option th:each="rate : ${ratings}"
+                th:value="${rate.name()}"
+                th:text="${rate.description}"
+                th:selected="${rate == recipe.rate}">
+            </option>
+        </select>
+        <button type="submit">Сохранить</button>
+    </form>
+
     <div>
         <a href="/recipes">К рецептам</a>
     </div>

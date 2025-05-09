@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.recipes_helper.DTO.RecipeWithIngredientsDTO;
+import com.example.recipes_helper.DTO.UserHistoryDTO;
 import com.example.recipes_helper.config.MyUserDetails;
 import com.example.recipes_helper.model.ProductCategory;
+import com.example.recipes_helper.model.Rating;
 import com.example.recipes_helper.model.Recipe;
 import com.example.recipes_helper.model.RecipeCategory;
 import com.example.recipes_helper.services.HistoryService;
@@ -62,11 +65,23 @@ public class RecipeController {
 	}
 
 	@PostMapping("/recipes/cook")
-	public String cookRecipe(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId){
+	public String cookRecipe(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId,
+	RedirectAttributes redirectAttributes) {
 		Long currentUserId = userDetails.getId();
 		recipeService.decreaseProducts(recipeId, currentUserId);
 		historyService.saveCookedRecipe(currentUserId, recipeId);
+
+		redirectAttributes.addAttribute("recipeId", recipeId);
 		return "redirect:/recipe_success";
 	}
+
+	@GetMapping("/recipe_success")
+	public String showSuccesPage(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId, Model model) {
+		UserHistoryDTO recipe = historyService.findHistoryByUserAndRecipe(userDetails.getId(), recipeId);
+		model.addAttribute("recipe", recipe);
+		model.addAttribute("ratings", Rating.values());
+		return "recipe_success.html";
+	}
+
 	
 }
