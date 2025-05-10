@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+.menu-main {
+    list-style: none;
+    margin: 40px 0 5px;
+    padding: 5px 0 5px;
+    text-align: center;
+    background: white;
+}
+.menu-main li {display: inline-block;}
+.menu-main li:after {
+    content: "|";
+    color: #606060;
+    display: inline-block;
+    vertical-align:top;
+}
+.menu-main li:last-child:after {content: none;}
+.menu-main a {
+    text-decoration: none;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 20px;
+    margin: 0 34px 0 30px;
+    font-size: 17px;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: color .2s;
+}
+.menu-main a, .menu-main a:visited {color: #9d999d;}
+.menu-main a.current, .menu-main a:hover{color: #feb386;}
+.menu-main a:before,
+.menu-main a:after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    top: auto;
+    right: 50%;
+    bottom: -5px;
+    left: 50%;
+    background: #feb386;
+    transition: .8s;
+}
+.menu-main a:hover:before, .menu-main .current:before {left: 0;}
+.menu-main a:hover:after, .menu-main .current:after {right: 0;}
+@media (max-width: 550px) {
+    .menu-main {padding-top: 0;}
+    .menu-main li {display: block;}
+    .menu-main li:after {content: none;}
+    .menu-main a {
+        padding: 25px 0 20px;
+        margin: 0 30px;
+    }
+}
+
+ body {
+     font-family: Arial, sans-serif;
+     line-height: 1.6;
+     margin: 0;
+     padding: 20px;
+     color: #333;
+     background-color: #fff5f7; /* Нежно-розовый фон */
+ }
+h1 {
+    color: rgb(209, 26, 117); /* Ярко-розовый для заголовка */
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.2);
+}
+.filters-container {
+    background-color: #ffeef2; /* Светло-розовый фон */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(214, 51, 132, 0.1); /* Розовая тень */
+    border: 1px solid #ffcce0; /* Розовая граница */
+}
+.filter-group label {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #c2185b; /* Темно-розовый для меток */
+}
+select {
+    padding: 8px 12px;
+    border: 1px solid #ffb6c1; /* Розовая граница */
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    background-color: white;
+    color: rgb(224, 102, 163); /* Розовый текст */
+}
+select:focus {
+    outline: 2px solid rgb(224, 102, 163); /* Ярко-розовый контур при фокусе */
+}
+.radio-options, .checkbox-options {
+    display: flex;
+    gap: 15px;
+}
+.radio-option, .checkbox-option {
+    display: flex;
+    align-items: center;
+}
+.radio-option input[type="radio"],
+.checkbox-option input[type="checkbox"] {
+    accent-color: rgb(224, 102, 163); /* Розовый цвет для радио и чекбоксов */
+    margin-right: 5px;
+}
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: rgb(224, 102, 163); /* Ярко-розовая кнопка */
+    color: white;
+    transition: all 0.3s ease;
+}
+button:hover {
+    background-color: rgb(211, 86, 149); /* Темнее при наведении */
+    transform: translateY(-1px);
+}
+.btn-reset {
+    padding: 10px 15px;
+    background-color: #ffc9de; /* Светло-розовый */
+    color: #c2185b; /* Темно-розовый текст */
+    text-decoration: none;
+    display: inline-block;
+    line-height: normal;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+.btn-reset:hover {
+    background-color: #f1bad0; /* Темнее при наведении */
+    color: #d63384;
+    transform: translateY(-1px);
+}
+.recipes-list {
+    list-style: none;
+    padding: 0;
+}
+.recipe-item {
+    background-color: white;
+    border: 1px solid #ffcce0; /* Розовая граница */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(214, 51, 132, 0.1); /* Розовая тень */
+    transition: all 0.3s ease;
+}
+.recipe-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(214, 51, 132, 0.15);
+}
+.recipe-title {
+    color: #d63384; /* Розовый заголовок */
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s ease;
+}
+.recipe-title:hover {
+    color: #c2185b; /* Темнее при наведении */
+    text-decoration: underline;
+}
+.recipe-description {
+    color: #727272;
+    margin: 5px 0;
+}
+.recipe-category {
+    font-style: italic;
+    color: rgb(224, 102, 163); /* Розовый цвет для категорий */
+    margin: 5px 0 0 0;
+}
