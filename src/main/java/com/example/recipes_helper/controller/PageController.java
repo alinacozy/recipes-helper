@@ -26,6 +26,10 @@ public class PageController {
     public String showSettingsForm() {
         return "settings"; 
     }
+//    @GetMapping("/products")
+//    public String showAllProducts() {
+//        return "products";
+//    }
 
     @GetMapping("/edit_products")
     public String showProductForm(Model model) {

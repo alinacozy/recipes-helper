@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Настройки</title>
 </head>
 <body>
+<ul class="menu-main">
+    <li><a href="/settings" class="current">Профиль</a></li>
+    <li><a href="/recipes" >Рецепты</a></li>
+    <li><a href="/history" >История приготовления</a></li>
+    <li><a href="/products" >Мои продукты</a></li>
+    <li><a href="/logout" >Выход</a></li>
+</ul>
     <h1>Настройки пользователя</h1>
     <h2>Изменить пароль</h2>
     <form th:action="@{/settings}" method="post">

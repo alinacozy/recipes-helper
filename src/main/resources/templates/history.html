@@ -2,12 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>История приготовлений</title>
 </head>
 <body>
+<ul class="menu-main">
+    <li><a href="/settings" >Профиль</a></li>
+    <li><a href="/recipes" >Рецепты</a></li>
+    <li><a href="/history" class="current">История приготовления</a></li>
+    <li><a href="/products" >Мои продукты</a></li>
+    <li><a href="/logout" >Выход</a></li>
+</ul>
     <h1>История приготовлений</h1>
-    <ul>
-        <li th:each="recipe : ${history}">
+    <ul class="recipes-list">
+        <li th:each="recipe : ${history}" class="recipe-item">
             <a th:href="@{'/recipes/' + ${recipe.recipeId}}" th:text="${recipe.recipeName}"></a>
             <p> Дата последнего приготовления: <span th:text="${recipe.date}"></span></p>
             <p>

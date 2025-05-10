@@ -2,15 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Рецепт</title>
 </head>
 <body>
+<ul class="menu-main">
+    <li><a href="/settings" >Профиль</a></li>
+    <li><a href="/recipes">Рецепты</a></li>
+    <li><a href="/history" >История приготовления</a></li>
+    <li><a href="/products" >Мои продукты</a></li>
+    <li><a href="/logout" >Выход</a></li>
+</ul>
     <h1 th:text="${recipe.name}"></h1>
     <p th:text="${recipe.description}"></p>
     <div th:if="${recipe.ingredients != null}">
+        <ul  class="recipes-list">
         <h2>Ингридиенты:</h2>
-        <ul>
-            <li th:each="ingredient : ${recipe.ingredients}">
+            <li th:each="ingredient : ${recipe.ingredients}" class="recipe-item">
                 <span th:text="${ingredient.productName + ' - ' + ingredient.count + ' ' + ingredient.unit + '.'}"></span>
                 <span th:if="${ingredient.missing>0}"
                     th:text="${'Вам не хватает '+ ingredient.missing + ' ' + ingredient.unit}"></span>

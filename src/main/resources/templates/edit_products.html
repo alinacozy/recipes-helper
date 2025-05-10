@@ -2,9 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Продукты</title>
 </head>
 <body>
+<ul class="menu-main">
+    <li><a href="/settings" >Профиль</a></li>
+    <li><a href="/recipes" >Рецепты</a></li>
+    <li><a href="/history" >История приготовления</a></li>
+    <li><a href="/products" class="current">Мои продукты</a></li>
+    <li><a href="/logout" >Выход</a></li>
+</ul>
+
+
 <h1>Редактор продуктов</h1>
 <p>Здесь вы можете добавить продукт или увеличить его количество.</p>
 <form th:action="@{/products}" th:object="${UserProductRequest}" method="post">

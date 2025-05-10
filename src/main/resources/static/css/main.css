@@ -58,39 +58,39 @@
      margin: 0;
      padding: 20px;
      color: #333;
-     background-color: #fff5f7; /* Нежно-розовый фон */
+     /*background-color: rgba(253, 239, 229, 0.78); */
  }
 h1 {
-    color: rgb(209, 26, 117); /* Ярко-розовый для заголовка */
+    color:  rgb(236, 135, 76);
     margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(214, 51, 132, 0.2);
+    text-shadow: 1px 1px 2px rgba(182, 70, 3, 0.15);
 }
 .filters-container {
-    background-color: #ffeef2; /* Светло-розовый фон */
+    /*background-color: #ffeef2; !* Светло-розовый фон *!*/
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(214, 51, 132, 0.1); /* Розовая тень */
-    border: 1px solid #ffcce0; /* Розовая граница */
+    box-shadow: 0 2px 4px rgba(182, 70, 3, 0.15);
+    border: 1px solid #f3b793;
 }
 .filter-group label {
     display: block;
     margin-top: 4px;
     margin-bottom: 4px;
     font-weight: bold;
-    color: #c2185b; /* Темно-розовый для меток */
+    color: #c2591a;
 }
 select {
     padding: 8px 12px;
-    border: 1px solid #ffb6c1; /* Розовая граница */
+    border: 1px solid #feb386;
     border-radius: 4px;
     width: 100%;
     max-width: 300px;
     background-color: white;
-    color: rgb(224, 102, 163); /* Розовый текст */
+    color: rgb(236, 135, 76);
 }
 select:focus {
-    outline: 2px solid rgb(224, 102, 163); /* Ярко-розовый контур при фокусе */
+    outline: 2px solid #feb386;
 }
 .radio-options, .checkbox-options {
     display: flex;
@@ -102,7 +102,7 @@ select:focus {
 }
 .radio-option input[type="radio"],
 .checkbox-option input[type="checkbox"] {
-    accent-color: rgb(224, 102, 163); /* Розовый цвет для радио и чекбоксов */
+    accent-color: #c2591a;
     margin-right: 5px;
 }
 .actions {
@@ -116,18 +116,18 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    background-color: rgb(224, 102, 163); /* Ярко-розовая кнопка */
+    background-color:  #feb386; /* Ярко-розовая кнопка */
     color: white;
     transition: all 0.3s ease;
 }
 button:hover {
-    background-color: rgb(211, 86, 149); /* Темнее при наведении */
+    background-color: rgb(234, 130, 66); /* Темнее при наведении */
     transform: translateY(-1px);
 }
 .btn-reset {
     padding: 10px 15px;
-    background-color: #ffc9de; /* Светло-розовый */
-    color: #c2185b; /* Темно-розовый текст */
+    background-color: #f3b793;
+    color: #e05f11;
     text-decoration: none;
     display: inline-block;
     line-height: normal;
@@ -135,8 +135,8 @@ button:hover {
     transition: all 0.3s ease;
 }
 .btn-reset:hover {
-    background-color: #f1bad0; /* Темнее при наведении */
-    color: #d63384;
+    background-color: #ecab84; /* Темнее при наведении */
+    color: #e05f11;
     transform: translateY(-1px);
 }
 .recipes-list {
@@ -145,19 +145,19 @@ button:hover {
 }
 .recipe-item {
     background-color: white;
-    border: 1px solid #ffcce0; /* Розовая граница */
+    border: 1px solid #ecab84; /* Розовая граница */
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(214, 51, 132, 0.1); /* Розовая тень */
+    box-shadow: 0 1px 3px rgb(224, 95, 17); /* Розовая тень */
     transition: all 0.3s ease;
 }
 .recipe-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(214, 51, 132, 0.15);
+    box-shadow: 0 4px 8px rgba(182, 70, 3, 0.15);
 }
 .recipe-title {
-    color: #d63384; /* Розовый заголовок */
+    color:  #e05f11; /* Розовый заголовок */
     font-size: 1.2em;
     margin: 0 0 5px 0;
     text-decoration: none;
@@ -165,7 +165,7 @@ button:hover {
     transition: color 0.2s ease;
 }
 .recipe-title:hover {
-    color: #c2185b; /* Темнее при наведении */
+    color: #e05f11; /* Темнее при наведении */
     text-decoration: underline;
 }
 .recipe-description {
@@ -174,6 +174,6 @@ button:hover {
 }
 .recipe-category {
     font-style: italic;
-    color: rgb(224, 102, 163); /* Розовый цвет для категорий */
+    color: rgb(234, 130, 66); /* Розовый цвет для категорий */
     margin: 5px 0 0 0;
 }

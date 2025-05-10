@@ -14,4 +14,14 @@
     <li><a href="/logout" >Выход</a></li>
 </ul>
 
+<ul class="recipes-list">
+    <li th:each="recipe : ${recipes}" class="recipe-item">
+        <a th:href="@{'/recipes/' + ${recipe.recipeId}}" class="recipe-title" th:text="${recipe.recipeName}"></a>
+        <p class="recipe-description" th:text="${recipe.description}"></p>
+        <p class="recipe-category">
+            Категория: <span th:text="${recipe.recipeCategory}"></span>
+        </p>
+    </li>
+</ul>
+
 </body>
