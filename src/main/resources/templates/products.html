@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Мои продукты</title>
+
+    <script>
+        // JS для отображения единицы измерения выбранного продукта
+        function updateUnit() {
+            const select = document.getElementById('productSelect');
+            const unitSpan = document.getElementById('unitSpan');
+            const selectedOption = select.options[select.selectedIndex];
+            const unit = selectedOption.getAttribute('data-unit');
+            unitSpan.textContent = unit ? unit : '';
+        }
+        window.onload = function() {
+            updateUnit();
+            document.getElementById('productSelect').addEventListener('change', updateUnit);
+        }
+    </script>
+
 </head>
 <body>
 <ul class="menu-main">
@@ -14,13 +30,35 @@
     <li><a href="/logout" >Выход</a></li>
 </ul>
 
+    <p>Здесь вы можете добавить продукт или увеличить его количество.</p>
+    <form th:action="@{/products}" th:object="${UserProductRequest}" method="post">
+        <label for="productSelect">Продукт:</label>
+        <select id="productSelect" th:field="*{productId}" required>
+            <option value="" disabled selected>Выберите продукт</option>
+            <option th:each="prod : ${products}"
+                    th:value="${prod.productId}"
+                    th:text="${prod.productName}"
+                    th:attr="data-unit=${prod.unit}">
+            </option>
+        </select><br />
+
+        <label for="count">Количество:</label>
+        <input type="number" id="count" th:field="*{count}" min="1" required />
+        <span id="unitSpan" style="margin-left: 5px;"></span><br />
+
+        <button type="submit">Отправить</button>
+    </form>
+
+
+    <div th:if="${successMessage}" style="color: green; font-weight: bold; margin-bottom: 10px;">
+        <p th:text="${successMessage}"></p>
+    </div>
+     
 <ul class="recipes-list">
-    <li th:each="recipe : ${recipes}" class="recipe-item">
-        <a th:href="@{'/recipes/' + ${recipe.recipeId}}" class="recipe-title" th:text="${recipe.recipeName}"></a>
-        <p class="recipe-description" th:text="${recipe.description}"></p>
-        <p class="recipe-category">
-            Категория: <span th:text="${recipe.recipeCategory}"></span>
-        </p>
+    <li th:each="product : ${user_products}" class="recipe-item">
+        <span th:text="${product.productName}"></span> - 
+        <span class="recipe-description" th:text="${product.count}"></span>
+        <span class="recipe-description" th:text="${product.unit}"></span>
     </li>
 </ul>
 

@@ -1,16 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-    <body>
-        <div>
-            <a href="/signup">зарегистрироваться</a>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <title>Рецепт</title>
+</head>
+
+<body>
+    <div>
+        <p>Recipes Helper: Ваш путеводитель в мир вкусных и здоровых блюд!</p>
+        <p>Откройте для себя новые кулинарные горизонты!</p>
+        <div class="actions">
+            <div>
+                <a href="/signup">Зарегистрироваться</a>
+            </div>
+            <div>
+                <a href="/login">Войти</a>
+            </div>
         </div>
-        <div>
-            <a href="/recipes">посмотреть рецепты</a>
-        </div>
-        <div>
-            <a href="/settings">настройки</a>
-        </div>
-    </body>
+    </div>
+    <img src="src/main/resources/static/images/landing_img.jpeg">
+</body>
+
 </html>
 <!--      xmlns:th="http://www.thymeleaf.org"-->
 <!--&gt;-->

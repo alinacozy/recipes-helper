@@ -177,3 +177,9 @@ button:hover {
     color: rgb(234, 130, 66); /* Розовый цвет для категорий */
     margin: 5px 0 0 0;
 }
+.form-user {
+    color: #e05f11;
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+}

@@ -7,12 +7,12 @@
 </head>
 <body>
 <h1>Sign Up</h1>
-<form th:action="@{/signup}" th:object="${user}" method="post">
+<form th:action="@{/signup}" th:object="${user}" method="post"  class="recipe-item">
     <label for="userName">User Name:</label>
     <input type="text" id="userName" th:field="*{userName}" /><br />
 
     <label for="password">Password:</label>
-    <input type="text" id="password" th:field="*{password}" /><br />
+    <input type="password" id="password" th:field="*{password}" /><br />
 
 
     <button type="submit">Register</button>

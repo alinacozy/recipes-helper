@@ -25,7 +25,7 @@ public class UserController {
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<String> addUser(@ModelAttribute User user) {
-    // для формы использовать @ModelAttribute
+        // для формы использовать @ModelAttribute
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.addUser(user);
@@ -43,14 +43,13 @@ public class UserController {
 
     @PostMapping("/settings")
     public String changePassword(
-        @RequestParam("oldPassword") String oldPassword,
-        @RequestParam("newPassword") String newPassword,
-        @AuthenticationPrincipal MyUserDetails userDetails,
-        Model model
-    ) {
-        String response=userService.changePassword(userDetails.getId(), oldPassword, newPassword);
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            @AuthenticationPrincipal MyUserDetails userDetails,
+            Model model) {
+        String response = userService.changePassword(userDetails.getId(), oldPassword, newPassword);
         model.addAttribute("message", response); // передаем в HTML сообщение-статус изменения пароля
-        return "settings"; 
+        return "settings";
     }
 
 }

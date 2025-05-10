@@ -11,4 +11,5 @@ public interface ProductService {
     UserProduct saveProduct(UserProduct product);
     UserProduct updateProduct(UserProduct product);
     List<Product> findAllProducts();
+    Product getProductById(Long productId);
 }

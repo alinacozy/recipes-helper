@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- <link rel="stylesheet" th:href="@{/css/main.css}"> -->
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
     <title>Login</title>
 </head>
 <body>
+    <div class="form-user">
     <h2>Login</h2>
     <form method="post" action="/login">
         <label>Username: <input type="text" name="username"/></label><br/>
@@ -11,6 +14,7 @@
         <button type="submit">Login</button>
         
     </form>
+    </div>
     <div th:if="${param.error}">
         Invalid username or password.
     </div>
