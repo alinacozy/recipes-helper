@@ -59,7 +59,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/signup").anonymous()
-                .requestMatchers("/", "/login", "/new-user", "/signup").permitAll()
+                .requestMatchers("/", "/login", "/new-user", "/signup", "/css/main.css").permitAll()
                 .requestMatchers("/**").authenticated()
             )
             .httpBasic(AbstractHttpConfigurer::disable)
