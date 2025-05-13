@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: rgba(248, 211, 188, 0.89);
+}
+
+.main-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 40px;
+    color: rgba(182, 70, 3, 0.15);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+}
+
+
+.right-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;       /* высота блока не больше высоты экрана */
+    overflow: hidden;    /* чтобы ничего не выходило за пределы */
+}
+
+.right-image img {
+    width: 100%;         /* картинка растягивается по ширине блока */
+    height: 100%;        /* и по высоте блока */
+    object-fit: cover;   /* сохраняет пропорции, заполняя весь блок */
+    box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+    display: block;      /* убирает возможные пробелы под img */
+}
+
+
+h1 {
+    font-size: 2.8rem;
+    color: rgba(136, 57, 10, 0.65);
+    margin-bottom: 24px;
+}
+
+.left-content p {
+    font-size: 1.2rem;
+    color: rgb(147, 59, 6);
+    margin-bottom: 18px;
+    padding: 10px 10px 10px 0;
+}
+
+.left-content p:first-of-type {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #933b06;
+}
+
+.field {
+    margin-top: 18px;
+}
+
+a {
+    text-decoration: none;
+    background: linear-gradient(-90deg, #f3b793 0%, #e05f11 100%);
+    color: #fff;
+    border: none;
+    border-radius: 15px ;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 12px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 2px 8px rgb(147, 59, 6);
+}
+
+a:hover {
+    background: linear-gradient(-90deg, #f6a577 0%, #933b06 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 18px rgb(147, 59, 6);
+}

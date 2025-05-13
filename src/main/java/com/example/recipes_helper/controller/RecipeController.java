@@ -64,24 +64,39 @@ public class RecipeController {
 		return recipeService.getRecipesForUser(currentUserId, recipeCategory, productCategory);
 	}
 
+//	@PostMapping("/recipes/cook")
+//	public String cookRecipe(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId,
+//	Model model) {
+//		Long currentUserId = userDetails.getId();
+//		recipeService.decreaseProducts(recipeId, currentUserId);
+//		historyService.saveCookedRecipe(currentUserId, recipeId);
+//
+//		model.addAttribute("alertMessage", "Рецепт успешно приготовлен!");
+//
+//		return "redirect:/recipe.html";
+//	}
+
 	@PostMapping("/recipes/cook")
-	public String cookRecipe(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId,
-	RedirectAttributes redirectAttributes) {
+	public String cookRecipe(@AuthenticationPrincipal MyUserDetails userDetails,
+							 @RequestParam Long recipeId,
+							 RedirectAttributes redirectAttributes) {
 		Long currentUserId = userDetails.getId();
 		recipeService.decreaseProducts(recipeId, currentUserId);
 		historyService.saveCookedRecipe(currentUserId, recipeId);
 
-		redirectAttributes.addAttribute("recipeId", recipeId);
-		return "redirect:/recipe_success";
+		// Добавляем flash-сообщение - оно сохранится только на время следующего запроса
+		redirectAttributes.addFlashAttribute("successMessage", "Рецепт успешно приготовлен!");
+		return "redirect:/recipes/" + recipeId;
 	}
 
-	@GetMapping("/recipe_success")
-	public String showSuccesPage(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId, Model model) {
-		UserHistoryDTO recipe = historyService.findHistoryByUserAndRecipe(userDetails.getId(), recipeId);
-		model.addAttribute("recipe", recipe);
-		model.addAttribute("ratings", Rating.values());
-		return "recipe_success.html";
-	}
+
+//	@GetMapping("/recipe_success")
+//	public String showSuccesPage(@AuthenticationPrincipal MyUserDetails userDetails, @RequestParam Long recipeId, Model model) {
+//		UserHistoryDTO recipe = historyService.findHistoryByUserAndRecipe(userDetails.getId(), recipeId);
+//		model.addAttribute("recipe", recipe);
+//		model.addAttribute("ratings", Rating.values());
+//		return "recipe_success.html";
+//	}
 
 	
 }

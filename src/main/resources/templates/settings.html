@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{/css/main.css}">
+
     <title>Настройки</title>
 </head>
 <body>
@@ -13,20 +14,24 @@
     <li><a href="/logout" >Выход</a></li>
 </ul>
     <h1>Настройки пользователя</h1>
+<div class="filters-container">
     <h2>Изменить пароль</h2>
     <form th:action="@{/settings}" method="post">
-        <div>
-            <label for="oldPassword">Старый пароль:</label>
+        <div class="field">
             <input type="password" id="oldPassword" name="oldPassword" required/>
+            <label>Старый пароль</label>
         </div>
-        <div>
-            <label for="newPassword">Новый пароль:</label>
+        <div class="field">
             <input type="password" id="newPassword" name="newPassword" required/>
+            <label>Новый пароль</label>
         </div>
-        <button type="submit">Изменить пароль</button>
+        <div class="field">
+            <input type="submit" value="Изменить пароль">
+        </div>
         <div th:if="${message}" style="color: rgb(255, 0, 221);">
             <p th:text="${message}"></p>
         </div>
     </form>
+</div>
 </body>
 </html>

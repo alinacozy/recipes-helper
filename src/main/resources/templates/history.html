@@ -16,7 +16,7 @@
     <h1>История приготовлений</h1>
     <ul class="recipes-list">
         <li th:each="recipe : ${history}" class="recipe-item">
-            <a th:href="@{'/recipes/' + ${recipe.recipeId}}" th:text="${recipe.recipeName}"></a>
+            <a th:href="@{'/recipes/' + ${recipe.recipeId}}" th:text="${recipe.recipeName}" class="recipe-title"></a>
             <p> Дата последнего приготовления: <span th:text="${recipe.date}"></span></p>
             <p>
                 <span th:if="${recipe.rate == null}">Нет оценки</span>

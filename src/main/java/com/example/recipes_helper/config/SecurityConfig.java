@@ -59,7 +59,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/signup").anonymous()
-                .requestMatchers("/", "/login", "/new-user", "/signup", "/css/main.css").permitAll()
+                .requestMatchers("/", "/login", "/new-user", "/signup", "/css/**", "/images/**").permitAll()
                 .requestMatchers("/**").authenticated()
             )
             .httpBasic(AbstractHttpConfigurer::disable)
@@ -74,6 +74,7 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 )
             .build();

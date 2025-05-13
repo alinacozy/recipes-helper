@@ -2,16 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{css/autorization.css}">
     <title>Login</title>
 </head>
 <body>
-    <div class="form-user">
-    <h1>Войти</h1>
+    <div class="wrapper">
+        <div class="title">
+            Авторизация
+        </div>
     <form method="post" action="/login">
-        <label>Username: <input type="text" name="username"/></label><br/>
-        <label>Password: <input type="password" name="password"/></label><br/>
-        <button type="submit">Login</button>
+        <div class="field">
+            <input type="text" name="username" required/>
+            <label>Username</label>
+        </div>
+        <div class="field">
+            <input type="password" name="password" required/>
+            <label>Password</label>
+        </div>
+        <div class="field">
+            <input type="submit" value="Войти">
+        </div>
+        <div class="signup-link">
+            <a href="/signup">Зарегистрироваться</a>
+        </div>
         
     </form>
     </div>

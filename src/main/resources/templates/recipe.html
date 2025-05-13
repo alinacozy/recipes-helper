@@ -6,6 +6,7 @@
     <title>Рецепт</title>
 </head>
 <body>
+
 <ul class="menu-main">
     <li><a href="/settings" >Профиль</a></li>
     <li><a href="/recipes">Рецепты</a></li>
@@ -13,6 +14,10 @@
     <li><a href="/products" >Мои продукты</a></li>
     <li><a href="/logout" >Выход</a></li>
 </ul>
+<div th:if="${successMessage}" class="alert alert-success" role="alert" >
+    <span th:text="${successMessage}"></span>
+</div>
+
     <h1 th:text="${recipe.name}"></h1>
     <p th:text="${recipe.description}"></p>
     <div th:if="${recipe.ingredients != null}">
@@ -31,10 +36,9 @@
             <input type="hidden" name="recipeId" th:value="${recipe.recipeId}"/>
             <button type="submit">Приготовить</button>
         </form>
-        <!-- <form th:action="@{/test-post}" method="post">
-            <input type="hidden" name="recipeId" th:value="${recipe.recipeId}"/>
-            <button type="submit">Тест</button>
-        </form> -->
     </div>
+<script th:if="${successMessage}">
+    alert([[${successMessage}]]);
+</script>
 </body>
 </html>
