@@ -1,35 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/autorization.css">
     <title>Sign Up</title>
 </head>
-<body >
-<div class="wrapper">
-    <div class="title">Регистрация</div>
-<form th:action="@{/signup}" th:object="${user}" method="post"  >
 
-    <div class="field">
-        <input type="text" id="userName" th:field="*{userName}" required/>
-        <label>Username</label>
-    </div>
-    <div class="field">
-        <input type="text" id="password" th:field="*{password}" required/>
-        <label>Password</label>
-    </div>
-    <div class="field">
-        <input type="submit" value="Зарегистрироваться">
-    </div>
-    <div class="signup-link">
-        <a href="/login">Войти</a>
-    </div>
+<body>
+    <div class="wrapper">
+        <div class="title">Регистрация</div>
+        <!-- Блок для отображения ошибок -->
+        <div th:if="${errorMessage}" class="error-message">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        <form th:action="@{/signup}" th:object="${user}" method="post">
 
-</form>
-</div>
-<div th:if="${param.error}">
-    Invalid username or password.
-</div>
+            <div class="field">
+                <input type="text" id="userName" th:field="*{userName}" required />
+                <label>Username</label>
+            </div>
+            <div class="field">
+                <input type="password" id="password" th:field="*{password}" required />
+                <label>Password</label>
+            </div>
+            <div class="field">
+                <input type="submit" value="Зарегистрироваться">
+            </div>
+            <div class="signup-link">
+                <a href="/login">Войти</a>
+            </div>
+
+        </form>
+    </div>
 </body>
+
 </html>

@@ -6,12 +6,14 @@ import org.springframework.ui.Model;
 import com.example.recipes_helper.config.MyUserDetails;
 import com.example.recipes_helper.model.User;
 import com.example.recipes_helper.services.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -19,19 +21,26 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    @ResponseBody
-    public ResponseEntity<String> addUser(@ModelAttribute User user) {
+    public String addUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
         // для формы использовать @ModelAttribute
         try {
+            String rawPassword = user.getPassword(); // сохраняем исходный пароль
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.addUser(user);
-            return ResponseEntity.ok("User created successfully");
+
+            // Автоматический вход через HttpServletRequest
+            request.login(user.getUserName(), rawPassword);
+
+            return "redirect:/recipes";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/signup";
         }
     }
 

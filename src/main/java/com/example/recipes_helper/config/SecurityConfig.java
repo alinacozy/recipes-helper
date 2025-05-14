@@ -30,58 +30,55 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService (){
+    public UserDetailsService userDetailsService() {
         return new MyUserDetailsService();
     }
 
     @Bean
     @Order(1)
-    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
+    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter)
+            throws Exception {
         return http
-            .securityMatcher("/api/**")
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login", "/api/signup").anonymous()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractHttpConfigurer::disable)
-            .build();
+                .securityMatcher("/api/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/login", "/api/signup").anonymous()
+                        .anyRequest().authenticated())
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .build();
     }
 
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .securityMatcher(request -> !request.getRequestURI().startsWith("/api/"))
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/signup").anonymous()
-                .requestMatchers("/", "/login", "/new-user", "/signup", "/css/**", "/images/**").permitAll()
-                .requestMatchers("/**").authenticated()
-            )
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .formLogin(form -> form
-                .loginPage("/login")             // URL нашей страницы логина
-                .loginProcessingUrl("/login")    // URL, куда отправляется POST с формой логина
-                .defaultSuccessUrl("/recipes", true) // перенаправлять после успешного входа
-                .failureUrl("/login?error=true")  // перенаправлять при ошибке
-                .permitAll()
-            )
+                .securityMatcher(request -> !request.getRequestURI().startsWith("/api/"))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/signup").anonymous()
+                        .requestMatchers("/", "/new-user", "/css/**", "/images/**").permitAll()
+                        .requestMatchers("/**").authenticated())
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(form -> form
+                        .loginPage("/login") // URL нашей страницы логина
+                        .loginProcessingUrl("/login") // URL, куда отправляется POST с формой логина
+                        .defaultSuccessUrl("/recipes", true) // перенаправлять после успешного входа
+                        .failureUrl("/login?error=true") // перенаправлять при ошибке
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
-                        .permitAll()
-                )
-            .build();
+                        .permitAll())
+                .build();
     }
-    
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
@@ -94,7 +91,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtRequestFilter jwtRequestFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, TokenBlacklistService tokenBlacklistService) {
+    public JwtRequestFilter jwtRequestFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil,
+            TokenBlacklistService tokenBlacklistService) {
         return new JwtRequestFilter(userDetailsService, jwtTokenUtil, tokenBlacklistService);
     }
 
