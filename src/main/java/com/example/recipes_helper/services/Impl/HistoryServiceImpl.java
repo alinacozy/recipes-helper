@@ -60,9 +60,7 @@ public class HistoryServiceImpl implements HistoryService {
 
         if (existingUserHistory.isPresent()) { //если пользователь уже готовил этот рецепт, обновляется дата и всё
             UserHistory existing = existingUserHistory.get();
-            System.out.println("Старая дата: " + existing.getDate());
             existing.setDate(today);
-            System.out.println("Новая дата: " + existing.getDate());
             UserHistory savedHistory = userHistoryRepository.save(existing);
             return savedHistory;
         }

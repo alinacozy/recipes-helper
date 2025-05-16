@@ -39,7 +39,6 @@ public class JwtRequestFilter extends OncePerRequestFilter { //фильтр вы
     )
     throws ServletException, IOException {
 
-        System.out.println("JwtRequestFilter: " + request.getRequestURI());
         final String authorizationHeader = request.getHeader("Authorization"); //извлекаем заголовок авторизации из запроса (там JWT токен)
 
         String username = null;
