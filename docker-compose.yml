@@ -1,0 +1,30 @@
+services:
+  db: # Сервис базы данных PostgreSQL
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      # переменные окружения
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Проброс порта 5432 из контейнера на хост-машину
+
+  backend:
+    build: .
+    container_name: spring_app
+    ports:
+      - "8080:8080"
+    environment:
+      # переменные окружения
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase 
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    depends_on:
+      - db # контейнер backend будет запускаться после запуска контейнера db
+
+volumes:
+  postgres_data:
+    external: true #volume уже создан вне compose и его не надо создавать заново

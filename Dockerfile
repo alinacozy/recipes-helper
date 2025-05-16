@@ -1,5 +1,40 @@
-FROM postgres:latest
-ENV POSTGRES_DB=mydatabase
-ENV POSTGRES_USER=myuser
-ENV POSTGRES_PASSWORD=mypassword
-EXPOSE 5432
+# ---Этап сборки---
+FROM maven:3.8.4-openjdk-17 AS build 
+# Используем официальный образ Maven с JDK 17 для сборки Java-приложения
+
+WORKDIR /app
+# Устанавливаем рабочую директорию внутри контейнера в /app
+
+COPY pom.xml .
+# Копируем pom.xml из проекта в контейнер
+
+RUN mvn dependency:go-offline
+# Запускаем команду Maven, которая скачивает все зависимости заранее, 
+# чтобы ускорить последующую сборку и использовать кеш Docker
+
+COPY src ./src
+# Копируем исходный код (папку src) в контейнер в папку /app/src
+
+RUN mvn package -DskipTests
+# Запускаем сборку проекта Maven, создавая исполняемый jar-файл
+# Опция -DskipTests пропускает запуск тестов
+# В результате в папке target появится файл jar 
+
+
+# ---Финальный образ---
+FROM openjdk:17-jdk-slim
+# Используем облегчённый официальный образ OpenJDK 17
+
+WORKDIR /app
+# Устанавливаем рабочую директорию в /app внутри контейнера.
+
+COPY --from=build /app/target/*.jar app.jar
+# Копируем собранный JAR-файл из предыдущего этапа сборки (build stage)
+# из папки /app/target в текущую рабочую директорию контейнера под именем app.jar.
+# Благодаря этому в финальном образе будет только готовый к запуску JAR без исходников и Maven.
+
+EXPOSE 8080
+# Оповещаем Docker, что контейнер слушает порт 8080(это не пробрасывает порт наружу)
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# Команда, которая будет выполнена при запуске контейнера
